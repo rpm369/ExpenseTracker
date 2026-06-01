@@ -18,6 +18,11 @@ class AuthCommons {
         isTextHidden: isTextHidden,
         changeVisibility: changeVisibility,
       ),
+      errorStyle: TextStyle(color: Colors.red),
+      errorMaxLines: 6,
+      errorBorder: UnderlineInputBorder(
+        borderSide: BorderSide(width: 1, color: Colors.red),
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
         borderSide: BorderSide(width: 2, color: Colors.deepOrange),
@@ -59,42 +64,5 @@ class AuthCommons {
 
   static Widget formSubtitle({required String txt, required Color txtColor}) {
     return Text(txt, style: TextStyle(color: txtColor, fontSize: 15));
-  }
-
-  static Widget emailField({
-    required Color onSurface,
-    required Key key,
-    required FocusNode node,
-  }) {
-    return TextFormField(
-      key: key,
-      cursorColor: onSurface,
-      focusNode: node,
-      style: TextStyle(fontSize: 16),
-      decoration: AuthCommons.inputFieldDecoration(
-        prefixIcon: Icons.mail,
-        hintText: "Email",
-        onSurface: onSurface,
-      ),
-    );
-  }
-
-  static Widget authButton({required Color primary, required bool isSignUp}) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 7),
-      decoration: BoxDecoration(
-        color: Colors.deepOrange,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        (isSignUp) ? "Signup" : "Login",
-        style: TextStyle(
-          color: primary,
-          fontSize: 28,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
   }
 }

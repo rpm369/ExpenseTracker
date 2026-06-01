@@ -1,6 +1,7 @@
+import 'package:expense_tracker/Components/AuthScreenWidgets/AuthButton.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
+import 'package:expense_tracker/Components/AuthScreenWidgets/EmailField.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/PasswdField.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignupForm extends StatefulWidget {
@@ -11,6 +12,10 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController conformPasswdController = TextEditingController();
+
   FocusNode emailNode = FocusNode();
   FocusNode passwdNode = FocusNode();
   FocusNode conformPasswdNode = FocusNode();
@@ -39,9 +44,6 @@ class _SignupFormState extends State<SignupForm> {
   }
 
   Widget _buildForm() {
-    Color onSurface = Theme.of(context).colorScheme.onSurface;
-    Color primary = Theme.of(context).colorScheme.primary;
-
     return Form(
       key: formKey,
       child: Column(
@@ -49,18 +51,26 @@ class _SignupFormState extends State<SignupForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          AuthCommons.emailField(
-            onSurface: onSurface,
-            key: emailKey,
+          EmailField(
+            emailkey: emailKey,
             node: emailNode,
+            controller: emailController,
+            onSaved: (_) => passwdNode.requestFocus(),
           ),
-          Passwdfield(focusNode: passwdNode),
           Passwdfield(
+            focusNode: passwdNode,
+            controller: passwordController,
+            passwdKey: passwdKey,
+            onSaved: (_) => conformPasswdNode.requestFocus(),
+          ),
+          Passwdfield(
+            passFieldController: passwordController,
+            passwdKey: conformPasswdKey,
             focusNode: conformPasswdNode,
-            hintText: "Conform Password",
+            controller: conformPasswdController,
           ),
           SizedBox(height: 10),
-          AuthCommons.authButton(primary: primary, isSignUp: true),
+          AuthButton(isForSignUp: true, isLoading: false, onTap: () {}),
         ],
       ),
     );

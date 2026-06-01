@@ -24,33 +24,39 @@ class _AuthScreenState extends State<AuthScreen> {
     Color bgColor = Theme.of(context).colorScheme.primary;
     return Scaffold(
       backgroundColor: bgColor,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          spacing: 15,
-          children: [
-            AnimatedSwitcher(
-              duration: Duration(milliseconds: 400),
-              transitionBuilder: (child, animation) {
-                final offsetAnimation = Tween(
-                  begin: Offset(0.1, 0),
-                  end: Offset.zero,
-                ).animate(animation);
-
-                return FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: offsetAnimation,
-                    child: child,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                spacing: 15,
+                children: [
+                  AnimatedSwitcher(
+                    duration: Duration(milliseconds: 400),
+                    transitionBuilder: (child, animation) {
+                      final offsetAnimation = Tween(
+                        begin: Offset(0.1, 0),
+                        end: Offset.zero,
+                      ).animate(animation);
+      
+                      return FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: authForms[formIndex],
                   ),
-                );
-              },
-              child: authForms[formIndex],
+                  _buildFooterText(),
+                ],
+              ),
             ),
-            _buildFooterText(),
-          ],
+          ),
         ),
       ),
     );

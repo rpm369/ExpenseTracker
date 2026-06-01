@@ -1,4 +1,6 @@
+import 'package:expense_tracker/Components/AuthScreenWidgets/AuthButton.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
+import 'package:expense_tracker/Components/AuthScreenWidgets/EmailField.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/PasswdField.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwdController = TextEditingController();
+
   FocusNode emailNode = FocusNode();
   FocusNode passwdNode = FocusNode();
 
@@ -22,7 +27,7 @@ class _LoginFormState extends State<LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AuthCommons.formTitle(txt: "Hey,\nWelcome Back"),
-        SizedBox(height: 10),
+        SizedBox(height: 20),
         AuthCommons.formSubtitle(
           txt: "Login now to track all your expenses",
           txtColor: secondaryColor,
@@ -35,7 +40,6 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _buildForm() {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
-    Color primary = Theme.of(context).colorScheme.primary;
 
     return Form(
       key: formKey,
@@ -44,20 +48,21 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          AuthCommons.emailField(
-            onSurface: onSurface,
-            key: emailKey,
+          EmailField(
+            emailkey: emailKey,
             node: emailNode,
+            controller: emailController,
+            onSaved: (_) => passwdNode.requestFocus(),
           ),
-          Passwdfield(focusNode: passwdNode),
-          _forgetPasswdTxt(onSurface: onSurface),
-          AuthCommons.authButton(primary: primary, isSignUp: false),
+          Passwdfield(
+            focusNode: passwdNode,
+            controller: passwdController,
+            passwdKey: passwdKey,
+          ),
+          SizedBox(height: 10),
+          AuthButton(isForSignUp: false, isLoading: false, onTap: () {}),
         ],
       ),
     );
-  }
-
-  Widget _forgetPasswdTxt({required Color onSurface}) {
-    return Text("Forgot Password ?", style: TextStyle(color: onSurface));
   }
 }
