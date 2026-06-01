@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Themeprovider.getTheme(true),
       onGenerateRoute: onGenerateRoute,
-      initialRoute: "/",
+      initialRoute: "/firstScreen",
     );
   }
 
