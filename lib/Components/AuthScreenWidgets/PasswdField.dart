@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class Passwdfield extends StatefulWidget {
   FocusNode? focusNode;
-  Passwdfield({this.focusNode});
+  String? hintText;
+  Passwdfield({required this.focusNode, this.hintText = 'Password'});
 
   State<Passwdfield> createState() => _PasswdfieldState();
 }
@@ -31,10 +32,10 @@ class _PasswdfieldState extends State<Passwdfield> {
     return TextFormField(
       cursorColor: onSurface,
       focusNode: widget.focusNode,
-      style: TextStyle(fontSize: 20),
+      style: TextStyle(fontSize: 16),
       obscureText: isHidden,
       decoration: AuthCommons.inputFieldDecoration(
-        hintText: "Password",
+        hintText: widget.hintText!,
         prefixIcon: Icons.password,
         onSurface: onSurface,
         isTextHidden: (widget.focusNode!.hasFocus == true) ? isHidden : null,

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Components/AuthScreenWidgets/LoginForm.dart';
+import 'package:expense_tracker/Components/AuthScreenWidgets/SignupForm.dart';
 import 'package:flutter/material.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -9,7 +10,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  List<Widget> authForms = [LoginForm()];
+  List<Widget> authForms = [LoginForm(), SignupForm()];
   int formIndex = 0;
 
   void switchAuthType() {
@@ -29,7 +30,27 @@ class _AuthScreenState extends State<AuthScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 15,
-          children: [authForms[formIndex], _buildFooterText()],
+          children: [
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 400),
+              transitionBuilder: (child, animation) {
+                final offsetAnimation = Tween(
+                  begin: Offset(0.1, 0),
+                  end: Offset.zero,
+                ).animate(animation);
+
+                return FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  ),
+                );
+              },
+              child: authForms[formIndex],
+            ),
+            _buildFooterText(),
+          ],
         ),
       ),
     );

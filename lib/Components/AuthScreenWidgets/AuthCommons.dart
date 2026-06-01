@@ -70,7 +70,7 @@ class AuthCommons {
       key: key,
       cursorColor: onSurface,
       focusNode: node,
-      style: TextStyle(fontSize: 20),
+      style: TextStyle(fontSize: 16),
       decoration: AuthCommons.inputFieldDecoration(
         prefixIcon: Icons.mail,
         hintText: "Email",
