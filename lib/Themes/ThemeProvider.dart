@@ -7,7 +7,7 @@ class Themeprovider {
       brightness: Brightness.dark,
       surface: Colors.black,
       primary: Colors.grey.shade900,
-      secondary: Colors.grey.shade500,
+      secondary: Colors.grey.shade800,
       onSurface: Colors.white,
     ),
   );
@@ -18,7 +18,7 @@ class Themeprovider {
       brightness: Brightness.light,
       surface: Colors.white,
       primary: Colors.grey.shade400,
-      secondary: Colors.grey.shade800,
+      secondary: Colors.grey.shade600,
       onSurface: Colors.black,
     ),
   );

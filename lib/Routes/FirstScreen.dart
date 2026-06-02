@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
@@ -9,7 +10,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<int> pages = [];
+  List<Widget> pages = [HomePage()];
   int pageIndex = 0;
 
   @override
@@ -17,7 +18,7 @@ class _FirstScreenState extends State<FirstScreen> {
     Color bgColor = Theme.of(context).colorScheme.primary;
     return Scaffold(
       backgroundColor: bgColor,
-      body: SafeArea(child: Center(child: SingleChildScrollView())),
+      body: SafeArea(child: pages[pageIndex]),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: _buildFloatingActionButton(),
     );
