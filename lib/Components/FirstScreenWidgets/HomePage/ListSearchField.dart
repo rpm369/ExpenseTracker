@@ -1,9 +1,9 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/FormHeader.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomeCommons.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
 import 'package:expense_tracker/Database/DummyData.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Utils/DateTimeUtils.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class ListSearchField extends StatelessWidget {
@@ -37,7 +37,7 @@ class ListSearchField extends StatelessWidget {
 
   Widget _searchField({required BuildContext context}) {
     Color onSurface = Theme.of(context).colorScheme.primary;
-    return HomeCommons.FormTextField(
+    return UiUtils.FormTextField(
       context: context,
       hintText: "Keyword",
       onChange: searchQuery,

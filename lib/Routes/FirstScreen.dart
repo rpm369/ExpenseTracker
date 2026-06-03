@@ -1,5 +1,6 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/NewTransactionForm.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsPage.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -12,7 +13,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<Widget> pages = [HomePage()];
+  List<Widget> pages = [HomePage(), StatsPage()];
   int pageIndex = 0;
 
   @override
@@ -22,7 +23,9 @@ class _FirstScreenState extends State<FirstScreen> {
       backgroundColor: bgColor,
       body: SafeArea(child: pages[pageIndex]),
       bottomNavigationBar: _buildBottomNavigationBar(),
-      floatingActionButton: _buildFloatingActionButton(),
+      floatingActionButton: (pageIndex == 0)
+          ? _buildFloatingActionButton()
+          : null,
     );
   }
 

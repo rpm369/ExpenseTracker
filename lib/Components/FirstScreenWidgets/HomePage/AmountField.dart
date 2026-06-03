@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomeCommons.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -23,7 +24,7 @@ class AmountField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
-    return HomeCommons.FormTextField(
+    return UiUtils.FormTextField(
       context: context,
       hintText: "Default 0",
       node: node,
