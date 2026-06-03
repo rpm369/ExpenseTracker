@@ -1,5 +1,4 @@
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
-import 'package:expense_tracker/Utils/DateTimeUtils.dart';
 
 class Transaction {
   ExpenseCategory _category;
@@ -20,10 +19,7 @@ class Transaction {
   String get title => this._title;
   double get amount => this._amount;
   ExpenseType get type => this._type;
-  String get dateTime =>
-      this._dateTime.day.toString() +
-      " " +
-      DateTimeUtils.monthToString(nMonth: this._dateTime.month);
+  DateTime get dateTime => this._dateTime;
 
   set category(ExpenseCategory newCategory) => this._category = newCategory;
   set title(String newTitle) => this._title = newTitle;

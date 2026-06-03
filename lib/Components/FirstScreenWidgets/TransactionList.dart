@@ -1,10 +1,11 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionTile.dart';
-import 'package:expense_tracker/Database/DummyData.dart';
+import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionList extends StatelessWidget {
   bool isScrollable;
-  TransactionList({this.isScrollable = true});
+  List<Transaction> data;
+  TransactionList({this.isScrollable = true, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class TransactionList extends StatelessWidget {
   Widget _staticList() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: dummyData
+      children: data
           .map((model) => TransactionTile(transaction: model))
           .toList(),
     );
@@ -22,9 +23,9 @@ class TransactionList extends StatelessWidget {
 
   Widget _scrollableList() {
     return ListView.builder(
-      itemCount: dummyData.length,
+      itemCount: data.length,
       itemBuilder: (context, index) {
-        return TransactionTile(transaction: dummyData[index]);
+        return TransactionTile(transaction: data[index]);
       },
     );
   }

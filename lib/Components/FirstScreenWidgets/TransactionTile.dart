@@ -1,6 +1,7 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/CategoryVisuals.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
+import 'package:expense_tracker/Utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -47,7 +48,10 @@ class TransactionTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _amountText(trans: transaction),
-            Text(transaction.dateTime, style: TextStyle(fontSize: 17)),
+            Text(
+              DateTimeUtils.listTimeFormat(dateTime: transaction.dateTime),
+              style: TextStyle(fontSize: 17),
+            ),
           ],
         ),
       ],

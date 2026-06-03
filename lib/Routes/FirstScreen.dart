@@ -1,5 +1,6 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/NewTransactionForm.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
@@ -30,21 +31,9 @@ class _FirstScreenState extends State<FirstScreen> {
     Color primary = Theme.of(context).colorScheme.primary;
     return FloatingActionButton(
       onPressed: () {
-        showModalBottomSheet(
+        UiUtils.displayBottomSheet(
+          sheetContent: NewTransactionForm(),
           context: context,
-          backgroundColor: primary,
-          isScrollControlled:
-              true, // Crucial for forms so it can resize with the keyboard
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          builder: (context) {
-            return SizedBox(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.87,
-              child: NewTransactionForm(),
-            );
-          },
         );
       },
       shape: CircleBorder(eccentricity: 0.5),

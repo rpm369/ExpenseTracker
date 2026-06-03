@@ -31,6 +31,14 @@ class DateTimeUtils {
     return _weekDay[nWeek - 1];
   }
 
+  static String listTimeFormat({required DateTime dateTime}) {
+    return dateTime.day.toString() +
+        " " +
+        DateTimeUtils.monthToString(nMonth: dateTime.month) +
+        " " +
+        dateTime.year.toString();
+  }
+
   static String format({DateTime? dateTime}) {
     dateTime ??= DateTime.now();
     String date = dateTime.day.toString();
