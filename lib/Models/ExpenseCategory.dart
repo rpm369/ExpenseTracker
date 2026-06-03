@@ -18,6 +18,9 @@ enum ExpenseCategory {
       orElse: () => UTILITIES,
     );
   }
+  static List<String> idList() {
+    return values.map((constants) => constants.id).toList();
+  }
 }
 
 enum ExpenseType {
@@ -31,5 +34,9 @@ enum ExpenseType {
       (value) => value.id == id,
       orElse: () => INCOME,
     );
+  }
+
+  static List<String> idList() {
+    return values.map((constants) => constants.id).toList();
   }
 }

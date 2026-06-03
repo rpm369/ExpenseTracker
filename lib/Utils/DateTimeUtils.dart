@@ -30,4 +30,13 @@ class DateTimeUtils {
   static String weekToString({required int nWeek}) {
     return _weekDay[nWeek - 1];
   }
+
+  static String format({DateTime? dateTime}) {
+    dateTime ??= DateTime.now();
+    String date = dateTime.day.toString();
+    String month = dateTime.month.toString();
+    String year = dateTime.year.toString();
+
+    return "$date/$month/$year";
+  }
 }
