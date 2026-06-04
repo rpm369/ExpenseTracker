@@ -1,6 +1,7 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/BalancePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/NewTransactionForm.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/ProfilePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsPage.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<Widget> pages = [HomePage(), StatsPage(), BalancePage()];
+  List<Widget> pages = [HomePage(), StatsPage(), BalancePage(), ProfilePage()];
   int pageIndex = 0;
 
   @override
