@@ -23,7 +23,7 @@ class Themeprovider {
     ),
   );
 
-  static ThemeData getTheme(bool isThemeTypeDark) {
-    return (isThemeTypeDark) ? _darkTheme : _lightTheme;
+  static ThemeData getTheme({bool isDark = true}) {
+    return (isDark) ? _darkTheme : _lightTheme;
   }
 }

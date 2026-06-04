@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_tracker/Services/FilePickerService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,16 +16,8 @@ class UploadImageButton extends StatelessWidget {
     return GestureDetector(
       child: _buildButtonUI(onSurface: onSurface),
       onTap: () async {
-        try {
-          XFile? image = await ImagePicker().pickImage(
-            source: ImageSource.gallery,
-          );
-          if (image != null) {
-            callBack(File(image.path));
-          }
-        } catch (e) {
-          print(e);
-        }
+        File? file = await FilePickerService.getFileFromUser();
+        if (file != null) callBack(file);
       },
     );
   }

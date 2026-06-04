@@ -101,4 +101,15 @@ class UiUtils {
       ),
     );
   }
+
+  static Widget avatar({
+    required String assetImageURL,
+    required double radius,
+  }) {
+    return CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: radius,
+      backgroundImage: AssetImage(assetImageURL),
+    );
+  }
 }

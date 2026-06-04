@@ -1,13 +1,13 @@
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
-class WalletNameField extends StatelessWidget {
+class EditNameField extends StatelessWidget {
   String? existingText;
   void Function(String) callBack;
   FocusNode node = FocusNode();
   late TextEditingController controller;
 
-  WalletNameField({required this.callBack, this.existingText})
+  EditNameField({required this.callBack, this.existingText})
     : controller = TextEditingController(text: existingText) {
     node.addListener(() {
       if (!node.hasFocus) callBack(controller.text);

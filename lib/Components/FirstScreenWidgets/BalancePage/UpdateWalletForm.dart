@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/EditNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
@@ -106,7 +106,7 @@ class Updatewalletform extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        WalletNameField(callBack: (value) {}, existingText: wallet.title),
+        EditNameField(callBack: (value) {}, existingText: wallet.title),
       ],
     );
   }

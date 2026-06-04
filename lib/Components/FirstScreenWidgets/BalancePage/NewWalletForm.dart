@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/AddWalletButton.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/EditNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +78,7 @@ class NewWalletForm extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        WalletNameField(callBack: (value) {}),
+        EditNameField(callBack: (value) {}),
       ],
     );
   }

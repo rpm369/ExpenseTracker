@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class ProfileInfo extends StatelessWidget {
@@ -9,7 +10,10 @@ class ProfileInfo extends StatelessWidget {
       spacing: 15,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [_avatar(), _userNameEmail()],
+      children: [
+        UiUtils.avatar(assetImageURL: "assets/images/demo.png", radius: 90),
+        _userNameEmail(),
+      ],
     );
   }
 
@@ -26,14 +30,6 @@ class ProfileInfo extends StatelessWidget {
           style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
       ],
-    );
-  }
-
-  Widget _avatar() {
-    return CircleAvatar(
-      backgroundColor: Colors.white,
-      radius: 90,
-      backgroundImage: AssetImage("assets/images/demo.png"),
     );
   }
 }

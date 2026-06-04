@@ -15,10 +15,10 @@ class WalletTile extends StatelessWidget {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
     return GestureDetector(
       onTap: () {
-        UiUtils.displayBottomSheet(
-          sheetContent: Updatewalletform(wallet: wallet),
-          context: context,
-        );
+        // UiUtils.displayBottomSheet(
+        //   sheetContent: Updatewalletform(wallet: wallet),
+        //   context: context,
+        // );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
