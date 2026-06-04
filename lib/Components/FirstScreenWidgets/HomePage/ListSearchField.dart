@@ -1,13 +1,13 @@
-import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/FormHeader.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
-import 'package:expense_tracker/Database/DummyData.dart';
+import 'package:expense_tracker/Database/DummyTransactions.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Utils/DateTimeUtils.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class ListSearchField extends StatelessWidget {
-  ValueNotifier<List<Transaction>> buffer = ValueNotifier(dummyData);
+  ValueNotifier<List<Transaction>> buffer = ValueNotifier(dummyTransactions);
 
   Widget build(BuildContext context) {
     return Padding(
@@ -48,19 +48,17 @@ class ListSearchField extends StatelessWidget {
     query = query.toLowerCase();
 
     if (query.isEmpty) {
-      buffer.value = dummyData;
+      buffer.value = dummyTransactions;
       return;
     }
 
-    buffer.value = dummyData.where((transaction) {
+    buffer.value = dummyTransactions.where((transaction) {
       String category = transaction.category.id.toLowerCase();
       String title = transaction.title.toLowerCase();
       String amount = transaction.amount.toString().toLowerCase();
       String date = DateTimeUtils.listTimeFormat(
         dateTime: transaction.dateTime,
       ).toLowerCase();
-
-      print(date);
 
       return (category.contains(query) ||
           title.contains(query) ||

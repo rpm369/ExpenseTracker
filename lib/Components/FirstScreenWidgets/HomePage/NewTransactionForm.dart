@@ -1,6 +1,6 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/AmountField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/DateSelectionTile.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/FormHeader.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/ModExpansionTile.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
 import 'package:flutter/material.dart';

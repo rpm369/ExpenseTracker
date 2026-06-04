@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/BalancePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/NewTransactionForm.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsPage.dart';
@@ -13,7 +14,7 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  List<Widget> pages = [HomePage(), StatsPage()];
+  List<Widget> pages = [HomePage(), StatsPage(), BalancePage()];
   int pageIndex = 0;
 
   @override

@@ -1,7 +1,7 @@
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 
-List<Transaction> dummyData = [
+List<Transaction> dummyTransactions = [
   Transaction(
     category: ExpenseCategory.UTILITIES,
     title: "Electricity Bill",

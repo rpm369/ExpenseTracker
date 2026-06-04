@@ -1,7 +1,7 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/BalanceCard.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/ListSearchField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
-import 'package:expense_tracker/Database/DummyData.dart';
+import 'package:expense_tracker/Database/DummyTransactions.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 20),
           _listText(title: "Recent Transactions"),
           SizedBox(height: 5),
-          Expanded(child: TransactionList(data: dummyData)),
+          Expanded(child: TransactionList(data: dummyTransactions)),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsChart.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
-import 'package:expense_tracker/Database/DummyData.dart';
+import 'package:expense_tracker/Database/DummyTransactions.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +22,19 @@ class _StatsPageState extends State<StatsPage> {
     switch (_selectedPeriod) {
       case StatsPeriod.weekly:
         final limit = now.subtract(const Duration(days: 7));
-        return dummyData.where((tx) => tx.dateTime.isAfter(limit)).toList();
+        return dummyTransactions
+            .where((tx) => tx.dateTime.isAfter(limit))
+            .toList();
       case StatsPeriod.monthly:
         final limit = now.subtract(const Duration(days: 30));
-        return dummyData.where((tx) => tx.dateTime.isAfter(limit)).toList();
+        return dummyTransactions
+            .where((tx) => tx.dateTime.isAfter(limit))
+            .toList();
       case StatsPeriod.yearly:
         final limit = now.subtract(const Duration(days: 365));
-        return dummyData.where((tx) => tx.dateTime.isAfter(limit)).toList();
+        return dummyTransactions
+            .where((tx) => tx.dateTime.isAfter(limit))
+            .toList();
     }
   }
 
@@ -97,8 +103,8 @@ class _StatsPageState extends State<StatsPage> {
                   period == StatsPeriod.weekly
                       ? "Weekly"
                       : period == StatsPeriod.monthly
-                          ? "Monthly"
-                          : "Yearly",
+                      ? "Monthly"
+                      : "Yearly",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: isSelected ? surface : onSurface.withAlpha(150),
