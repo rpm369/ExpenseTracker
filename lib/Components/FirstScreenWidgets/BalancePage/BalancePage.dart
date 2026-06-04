@@ -1,5 +1,7 @@
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/NewWalletForm.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletList.dart';
 import 'package:expense_tracker/Database/DummyWallets.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class BalancePage extends StatelessWidget {
@@ -47,7 +49,7 @@ class BalancePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          _walletHeader(primary: primary),
+          _walletHeader(primary: primary, context: context),
           SizedBox(height: 3),
           Expanded(
             child: Padding(
@@ -60,7 +62,10 @@ class BalancePage extends StatelessWidget {
     );
   }
 
-  Widget _walletHeader({required Color primary}) {
+  Widget _walletHeader({
+    required Color primary,
+    required BuildContext context,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,14 +75,22 @@ class BalancePage extends StatelessWidget {
           textSize: 23,
           fontWeight: FontWeight.bold,
         ),
-        _buildAddNewButton(primaryColor: primary),
+        _buildAddNewButton(primaryColor: primary, context: context),
       ],
     );
   }
 
-  Widget _buildAddNewButton({required Color primaryColor}) {
+  Widget _buildAddNewButton({
+    required Color primaryColor,
+    required BuildContext context,
+  }) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        UiUtils.displayBottomSheet(
+          sheetContent: NewWalletForm(),
+          context: context,
+        );
+      },
       child: Icon(Icons.add, color: primaryColor, size: 28),
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(0),

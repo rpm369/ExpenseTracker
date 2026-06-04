@@ -15,10 +15,15 @@ class UiUtils {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.87,
-          child: sheetContent,
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.87,
+            child: sheetContent,
+          ),
         );
       },
     );
@@ -31,14 +36,16 @@ class UiUtils {
     FocusNode? node,
     TextInputType? keyboardType,
     void Function(String)? onChange,
+    String? Function(String?)? validator,
   }) {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
-    return TextField(
+    return TextFormField(
       cursorColor: onSurface,
       style: TextStyle(fontSize: 20),
       controller: controller,
       onChanged: onChange,
       focusNode: node,
+      validator: validator,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
@@ -54,6 +61,44 @@ class UiUtils {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(15),
       borderSide: BorderSide(width: 1, color: onSurface),
+    );
+  }
+
+  static Widget formFooter({
+    required BuildContext context,
+    required Widget child,
+  }) {
+    Color primary = Theme.of(context).colorScheme.primary;
+    Color onSurface = Theme.of(context).colorScheme.onSurface;
+
+    return Container(
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 2),
+      decoration: BoxDecoration(color: primary),
+      alignment: Alignment.center,
+      child: child,
+    );
+  }
+
+  static Widget formButton({required Color primary, required String title}) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        padding: EdgeInsets.all(5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.deepOrange,
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 26,
+            color: primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

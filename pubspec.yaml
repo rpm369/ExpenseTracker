@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_snake_navigationbar: ^0.6.1
   fl_chart: ^1.2.0
+  dotted_border: ^3.1.0
+  image_picker: ^1.2.2
   
 
 dev_dependencies:

@@ -3,6 +3,7 @@ import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/DateSelec
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/ModExpansionTile.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class NewTransactionForm extends StatelessWidget {
@@ -10,6 +11,8 @@ class NewTransactionForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color primary = Theme.of(context).colorScheme.primary;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       child: Column(
@@ -32,43 +35,11 @@ class NewTransactionForm extends StatelessWidget {
               ],
             ),
           ),
-          _buildSubmitButton(context: context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSubmitButton({required BuildContext context}) {
-    Color primary = Theme.of(context).colorScheme.primary;
-    Color onSurface = Theme.of(context).colorScheme.onSurface;
-
-    return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(top: 2),
-      decoration: BoxDecoration(color: primary),
-      alignment: Alignment.center,
-      child: _submitButton(primary: primary),
-    );
-  }
-
-  Widget _submitButton({required Color primary}) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        padding: EdgeInsets.all(5),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.deepOrange,
-        ),
-        child: Text(
-          "Submit",
-          style: TextStyle(
-            fontSize: 26,
-            color: primary,
-            fontWeight: FontWeight.bold,
+          UiUtils.formFooter(
+            context: context,
+            child: UiUtils.formButton(primary: primary, title: "Submit"),
           ),
-        ),
+        ],
       ),
     );
   }
