@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UpdateWalletForm.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
+import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 
 class WalletTile extends StatelessWidget {
@@ -10,6 +14,12 @@ class WalletTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
     return GestureDetector(
+      onTap: () {
+        UiUtils.displayBottomSheet(
+          sheetContent: Updatewalletform(wallet: wallet),
+          context: context,
+        );
+      },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
@@ -29,9 +39,7 @@ class WalletTile extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       spacing: 10,
       children: [
-        _buildWalletImage(
-          imageURL: wallet.imageURL ?? "assets/images/demo.png",
-        ),
+        _buildWalletImage(),
         Expanded(child: _buildWalletLabels()),
       ],
     );
@@ -53,13 +61,18 @@ class WalletTile extends StatelessWidget {
     );
   }
 
-  Widget _buildWalletImage({required String imageURL}) {
+  Widget _buildWalletImage() {
     return Container(
       height: 70,
       width: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(image: AssetImage(imageURL), fit: BoxFit.cover),
+        image: DecorationImage(
+          image: (wallet.imageURL != null)
+              ? FileImage(File(wallet.imageURL!))
+              : AssetImage("assets/images/demo.png"),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
