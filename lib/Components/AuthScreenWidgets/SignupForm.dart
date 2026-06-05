@@ -59,7 +59,7 @@ class _SignupFormState extends State<SignupForm> {
           ),
           Passwdfield(forConformation: true, focusNode: conformPasswdNode),
           SizedBox(height: 10),
-          AuthButton(isForSignUp: true, isLoading: false),
+          AuthButton(isForSignUp: true, formKey: formKey),
         ],
       ),
     );

@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 part 'Transaction.g.dart';
 
 @HiveType(typeId: 2)
-class Transaction {
+class Transaction extends HiveObject {
   @HiveField(0)
   int? id;
 
@@ -32,4 +32,3 @@ class Transaction {
     required this.dateTime,
   });
 }
-

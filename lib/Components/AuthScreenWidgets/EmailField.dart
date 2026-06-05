@@ -27,7 +27,7 @@ class _EmailFieldState extends State<EmailField> {
       if (!widget.node.hasFocus) {
         if (controller.text.isNotEmpty) {
           bool isValid = emailkey.currentState!.validate();
-          if (isValid) user?.userEmail = controller.text;
+          if (isValid) user?.userEmail = controller.text.trim().toLowerCase();
         }
       } else {
         emailkey.currentState!.clearError();

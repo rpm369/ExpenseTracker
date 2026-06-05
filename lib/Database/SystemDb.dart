@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Database/Constants.dart';
+import 'package:expense_tracker/Services/AuthService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,15 +22,22 @@ class SystemDb extends ChangeNotifier {
 
   static Future<void> _initialize() async {
     await _db!.setBool(SystemDbConst.IS_DARK.id, true);
-    await _db!.setString(SystemDbConst.LOGGED_USER_ID.id, '');
+    await _db!.setInt(SystemDbConst.LOGGED_USER_ID.id, -1);
   }
 
   bool isDarkModeEnabled() {
     return _db!.getBool(SystemDbConst.IS_DARK.id)!;
   }
 
-  bool isUserActive() {
-    return _db!.getString(SystemDbConst.LOGGED_USER_ID.id)! != '';
+  Future<bool> isUserActive() async {
+    int userId = _db!.getInt(SystemDbConst.LOGGED_USER_ID.id)!;
+
+    if (userId != -1) {
+      await AuthService.loadUserTransactionDb(id: userId);
+      await AuthService.loadWalletDb(id: userId);
+    }
+
+    return userId != -1;
   }
 
   Future<bool> switchThemeMode() async {
@@ -39,7 +47,7 @@ class SystemDb extends ChangeNotifier {
     );
   }
 
-  Future<void> setActiveUserId({required String newId}) {
-    return _db!.setString(SystemDbConst.LOGGED_USER_ID.id, newId);
+  Future<void> setActiveUserId({required int newId}) {
+    return _db!.setInt(SystemDbConst.LOGGED_USER_ID.id, newId);
   }
 }

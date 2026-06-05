@@ -32,7 +32,7 @@ class _PasswdfieldState extends State<Passwdfield> {
         if (controller.text.isNotEmpty) {
           bool isValid = passwdKey.currentState!.validate();
           if (isValid && !widget.forConformation)
-            user?.userPassword = controller.text;
+            user?.userPassword = controller.text.trim();
         }
       } else {
         passwdKey?.currentState!.clearError();

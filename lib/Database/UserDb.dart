@@ -6,7 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 class UserDb {
   UserDb._();
 
-  static Box? _db;
+  static Box<User>? _db;
+  static User? activeUser;
 
   static UserDb getDb() {
     if (_db == null)
@@ -22,10 +23,9 @@ class UserDb {
   }
 
   Future<int> signUpUser({required User user}) async {
-    User? userInDb = _db!.keys.singleWhere(
-      (userElement) => user.userEmail == userElement.userEmail,
-      orElse: null,
-    );
+    User? userInDb = _db!.keys.singleWhere((key) {
+      return (_db!.getAt(key))!.userEmail == user.userEmail;
+    }, orElse: () => null);
 
     if (userInDb != null)
       throw DuplicateEntityException(
@@ -33,6 +33,24 @@ class UserDb {
         completionStatus: false,
       );
 
+    activeUser = user;
+
     return await _db!.add(user);
+  }
+
+  Future<int?> logInUser({required User user}) async {
+    User? tempUser;
+
+    for (int key in _db!.keys) {
+      if (_db!.get(key)!.userEmail == user.userEmail &&
+          _db!.get(key)!.userPassword == user.userPassword) {
+        tempUser = _db!.get(key);
+        break;
+      }
+    }
+
+    activeUser = tempUser;
+
+    return (activeUser == null) ? null : activeUser!.key as int;
   }
 }

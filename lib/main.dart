@@ -1,27 +1,40 @@
 import 'package:expense_tracker/Database/SystemDb.dart';
 import 'package:expense_tracker/Database/UserDb.dart';
+import 'package:expense_tracker/Models/Transaction.dart';
+import 'package:expense_tracker/Models/User.dart';
+import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Routes/FirstScreen.dart';
 import 'package:expense_tracker/Routes/AuthScreen.dart';
 import 'package:expense_tracker/Routes/Screen404.dart';
 import 'package:expense_tracker/Themes/ThemeProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(TransactionAdapter());
+  Hive.registerAdapter(WalletAdapter());
+
   SystemDb systemDb = await SystemDb.getDatabase();
   await UserDb.loadDb();
+
+  bool isUserActive = await systemDb.isUserActive();
 
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => systemDb)],
-      child: MyApp(),
+      child: MyApp(isUserActive), //bad practice
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
+  bool isUserActive;
+  MyApp(this.isUserActive);
   @override
   Widget build(BuildContext context) {
     SystemDb systemDb = context.watch<SystemDb>();
@@ -30,7 +43,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: Themeprovider.getTheme(isDark: systemDb.isDarkModeEnabled()),
       onGenerateRoute: onGenerateRoute,
-      initialRoute: (systemDb.isUserActive()) ? '/firstScreen' : '/',
+      initialRoute: (isUserActive) ? '/firstScreen' : '/',
     );
   }
 

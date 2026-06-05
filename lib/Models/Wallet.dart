@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'Wallet.g.dart';
 
 @HiveType(typeId: 1)
-class Wallet {
+class Wallet extends HiveObject {
   @HiveField(0)
   int? id;
 
@@ -23,4 +23,3 @@ class Wallet {
     this.imageURL,
   });
 }
-

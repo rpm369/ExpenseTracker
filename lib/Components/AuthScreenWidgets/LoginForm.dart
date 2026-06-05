@@ -4,6 +4,7 @@ import 'package:expense_tracker/Components/AuthScreenWidgets/EmailField.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/PasswdField.dart';
 import 'package:expense_tracker/Models/User.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -31,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
           txtColor: secondaryColor,
         ),
         SizedBox(height: 10),
-        _buildForm(),
+        Provider(create: (_) => user, child: _buildForm()),
       ],
     );
   }
@@ -52,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Passwdfield(focusNode: passwdNode),
           SizedBox(height: 10),
-          AuthButton(isForSignUp: false, isLoading: false, onTap: () {}),
+          AuthButton(isForSignUp: false, formKey: formKey),
         ],
       ),
     );
