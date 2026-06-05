@@ -14,14 +14,14 @@ enum UserDbConst {
 }
 
 enum TransactionDbConsts {
-  DB_NAME("Transaction_");
+  DB_NAME("Transaction");
 
   final String id;
   const TransactionDbConsts(this.id);
 }
 
 enum WalletDbConst {
-  DB_NAME("Wallet_");
+  DB_NAME("Wallet");
 
   final String id;
   const WalletDbConst(this.id);

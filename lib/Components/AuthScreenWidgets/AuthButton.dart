@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthButton extends StatefulWidget {
+  bool Function() canProceedcallBack;
   bool isForSignUp;
-  GlobalKey<FormState>? formKey;
 
-  AuthButton({required this.isForSignUp, this.formKey});
+  AuthButton({required this.isForSignUp, required this.canProceedcallBack});
   @override
   State<AuthButton> createState() => _AuthButtonState();
 }
@@ -53,8 +53,8 @@ class _AuthButtonState extends State<AuthButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        bool didFormValidate = widget.formKey?.currentState!.validate() ?? true;
-        if (isLoading || !didFormValidate) return;
+        if (isLoading) return;
+        if (!widget.canProceedcallBack()) return;
 
         setState(() {
           isLoading = true;

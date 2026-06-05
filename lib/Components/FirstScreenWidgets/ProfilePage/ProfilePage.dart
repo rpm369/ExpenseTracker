@@ -64,11 +64,10 @@ class ProfilePage extends StatelessWidget {
         ),
         OptionTile(
           onClick: () async {
-            bool result = await showDialog(
+            await showDialog(
               context: context,
               builder: (context) => LogOutDialog(),
             );
-            print(result);
           },
           bgColor: Colors.red,
           icon: Icons.logout_outlined,

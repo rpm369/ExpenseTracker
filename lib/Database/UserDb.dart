@@ -22,10 +22,23 @@ class UserDb {
     _db = await Hive.openBox(UserDbConst.DB_NAME.id);
   }
 
+  static void changeActiveUser({required int userId}) {
+    if (userId < 0) {
+      activeUser = null;
+      return;
+    }
+    activeUser = _db!.get(userId)!;
+  }
+
   Future<int> signUpUser({required User user}) async {
-    User? userInDb = _db!.keys.singleWhere((key) {
-      return (_db!.getAt(key))!.userEmail == user.userEmail;
-    }, orElse: () => null);
+    User? userInDb;
+
+    for (User listUser in _db!.values) {
+      if (listUser.userEmail == user.userEmail) {
+        userInDb = listUser;
+        break;
+      }
+    }
 
     if (userInDb != null)
       throw DuplicateEntityException(
@@ -41,11 +54,10 @@ class UserDb {
   Future<int?> logInUser({required User user}) async {
     User? tempUser;
 
-    for (int key in _db!.keys) {
-      if (_db!.get(key)!.userEmail == user.userEmail &&
-          _db!.get(key)!.userPassword == user.userPassword) {
-        tempUser = _db!.get(key);
-        break;
+    for (User listUser in _db!.values) {
+      if (listUser.userEmail == user.userEmail &&
+          listUser.userPassword == user.userPassword) {
+        tempUser = listUser;
       }
     }
 

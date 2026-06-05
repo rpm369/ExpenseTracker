@@ -20,4 +20,9 @@ class TransactionDb {
     String boxName = TransactionDbConsts.DB_NAME.id + DbId.toString();
     _db = await Hive.openBox(boxName);
   }
+
+  static Future<void> closeDb() async {
+    await _db!.close();
+    _db = null;
+  }
 }

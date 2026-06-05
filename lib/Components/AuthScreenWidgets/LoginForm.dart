@@ -53,9 +53,20 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Passwdfield(focusNode: passwdNode),
           SizedBox(height: 10),
-          AuthButton(isForSignUp: false, formKey: formKey),
+          AuthButton(
+            isForSignUp: false,
+            canProceedcallBack: () {
+              _unfocusNodes();
+              return formKey.currentState!.validate();
+            },
+          ),
         ],
       ),
     );
+  }
+
+  void _unfocusNodes() {
+    if (emailNode.hasFocus) emailNode.unfocus();
+    if (passwdNode.hasFocus) passwdNode.unfocus();
   }
 }

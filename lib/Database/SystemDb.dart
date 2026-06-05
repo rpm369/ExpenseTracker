@@ -35,6 +35,7 @@ class SystemDb extends ChangeNotifier {
     if (userId != -1) {
       await AuthService.loadUserTransactionDb(id: userId);
       await AuthService.loadWalletDb(id: userId);
+      AuthService.setActiveUser(id: userId);
     }
 
     return userId != -1;

@@ -21,4 +21,9 @@ class WalletDb {
     String boxName = WalletDbConst.DB_NAME.id + dbId.toString();
     _db = await Hive.openBox(boxName);
   }
+
+  static Future<void> closeDb() async {
+    await _db!.close();
+    _db = null;
+  }
 }
