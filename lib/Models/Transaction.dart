@@ -1,33 +1,35 @@
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:hive/hive.dart';
 
+part 'Transaction.g.dart';
+
+@HiveType(typeId: 2)
 class Transaction {
-  int? _id;
-  ExpenseCategory _category;
-  String _title;
-  double _amount;
-  ExpenseType _type;
-  DateTime _dateTime;
+  @HiveField(0)
+  int? id;
+
+  @HiveField(1)
+  ExpenseCategory category;
+
+  @HiveField(2)
+  String title;
+
+  @HiveField(3)
+  double amount;
+
+  @HiveField(4)
+  ExpenseType type;
+
+  @HiveField(5)
+  DateTime dateTime;
 
   Transaction({
-    this._id,
-    required this._category,
-    required this._title,
-    required this._amount,
-    required this._type,
-    required this._dateTime,
+    this.id,
+    required this.category,
+    required this.title,
+    required this.amount,
+    required this.type,
+    required this.dateTime,
   });
-
-  int? get id => this._id;
-  ExpenseCategory get category => this._category;
-  String get title => this._title;
-  double get amount => this._amount;
-  ExpenseType get type => this._type;
-  DateTime get dateTime => this._dateTime;
-
-  set id(int newId) => id;
-  set category(ExpenseCategory newCategory) => this._category = newCategory;
-  set title(String newTitle) => this._title = newTitle;
-  set amount(double newAmount) => this._amount = newAmount;
-  set type(ExpenseType newType) => this._type = newType;
-  set dateTime(DateTime newDateTime) => this._dateTime = newDateTime;
 }
+

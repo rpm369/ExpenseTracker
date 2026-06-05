@@ -4,6 +4,7 @@ import 'package:expense_tracker/Components/AuthScreenWidgets/EmailField.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/PasswdField.dart';
 import 'package:expense_tracker/Models/User.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({super.key});
@@ -13,7 +14,7 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
-  User user = User(userEmail: "", userName: "", userPassword: "");
+  User user = User(userEmail: "", userPassword: "");
 
   FocusNode emailNode = FocusNode();
   FocusNode passwdNode = FocusNode();
@@ -34,7 +35,7 @@ class _SignupFormState extends State<SignupForm> {
           txtColor: secondaryColor,
         ),
         SizedBox(height: 10),
-        _buildForm(),
+        Provider(create: (_) => user, child: _buildForm()),
       ],
     );
   }
@@ -49,22 +50,16 @@ class _SignupFormState extends State<SignupForm> {
         children: [
           EmailField(
             node: emailNode,
-            user: user,
             onSaved: (_) => passwdNode.requestFocus(),
           ),
           Passwdfield(
             focusNode: passwdNode,
             forConformation: false,
-            user: user,
             onSaved: (_) => conformPasswdNode.requestFocus(),
           ),
-          Passwdfield(
-            forConformation: true,
-            user: user,
-            focusNode: conformPasswdNode,
-          ),
+          Passwdfield(forConformation: true, focusNode: conformPasswdNode),
           SizedBox(height: 10),
-          AuthButton(isForSignUp: true, isLoading: false, onTap: () {}),
+          AuthButton(isForSignUp: true, isLoading: false),
         ],
       ),
     );

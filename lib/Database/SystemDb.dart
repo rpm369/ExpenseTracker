@@ -21,7 +21,7 @@ class SystemDb extends ChangeNotifier {
 
   static Future<void> _initialize() async {
     await _db!.setBool(SystemDbConst.IS_DARK.id, true);
-    await _db!.setInt(SystemDbConst.LOGGED_USER_ID.id, -1);
+    await _db!.setString(SystemDbConst.LOGGED_USER_ID.id, '');
   }
 
   bool isDarkModeEnabled() {
@@ -29,7 +29,7 @@ class SystemDb extends ChangeNotifier {
   }
 
   bool isUserActive() {
-    return _db!.getInt(SystemDbConst.LOGGED_USER_ID.id)! != -1;
+    return _db!.getString(SystemDbConst.LOGGED_USER_ID.id)! != '';
   }
 
   Future<bool> switchThemeMode() async {
@@ -39,7 +39,7 @@ class SystemDb extends ChangeNotifier {
     );
   }
 
-  Future<void> setActiveUserId({required int newId}) {
-    return _db!.setInt(SystemDbConst.LOGGED_USER_ID.id, newId);
+  Future<void> setActiveUserId({required String newId}) {
+    return _db!.setString(SystemDbConst.LOGGED_USER_ID.id, newId);
   }
 }

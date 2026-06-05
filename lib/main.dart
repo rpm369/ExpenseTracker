@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Database/SystemDb.dart';
+import 'package:expense_tracker/Database/UserDb.dart';
 import 'package:expense_tracker/Routes/FirstScreen.dart';
 import 'package:expense_tracker/Routes/AuthScreen.dart';
 import 'package:expense_tracker/Routes/Screen404.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemDb systemDb = await SystemDb.getDatabase();
+  await UserDb.loadDb();
 
   runApp(
     MultiProvider(

@@ -48,10 +48,9 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           EmailField(
             node: emailNode,
-            user: user,
             onSaved: (_) => passwdNode.requestFocus(),
           ),
-          Passwdfield(focusNode: passwdNode, user: user),
+          Passwdfield(focusNode: passwdNode),
           SizedBox(height: 10),
           AuthButton(isForSignUp: false, isLoading: false, onTap: () {}),
         ],

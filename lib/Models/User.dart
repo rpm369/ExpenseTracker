@@ -1,19 +1,17 @@
+import 'package:hive/hive.dart';
+
+part 'User.g.dart';
+
+@HiveType(typeId: 0)
 class User {
-  String _userEmail;
-  String? _userName;
-  String _userPassword;
+  @HiveField(0)
+  String userEmail;
 
-  User({
-    required this._userEmail,
-    required this._userName,
-    required this._userPassword,
-  });
+  @HiveField(1)
+  String? userName;
 
-  set userEmail(String newEmail) => this._userEmail = newEmail;
-  set userName(String newName) => this._userName = newName;
-  set userPassword(String newPasswd) => this._userPassword = newPasswd;
+  @HiveField(2)
+  String userPassword;
 
-  String get userEmail => this._userEmail;
-  String? get userName => this._userName;
-  String get userPasswd => this._userPassword;
+  User({required this.userEmail, this.userName, required this.userPassword});
 }

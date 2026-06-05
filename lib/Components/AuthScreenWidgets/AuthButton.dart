@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 class AuthButton extends StatefulWidget {
   bool isForSignUp;
   bool isLoading;
-  VoidCallback onTap;
 
-  AuthButton({
-    required this.isForSignUp,
-    required this.onTap,
-    required this.isLoading,
-  });
+  AuthButton({required this.isForSignUp, required this.isLoading});
   @override
   State<AuthButton> createState() => _AuthButtonState();
 }
@@ -18,7 +13,7 @@ class _AuthButtonState extends State<AuthButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () {},
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 7),
         decoration: BoxDecoration(

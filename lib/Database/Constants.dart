@@ -5,3 +5,10 @@ enum SystemDbConst {
   final String id;
   const SystemDbConst(this.id);
 }
+
+enum UserDbConst {
+  DB_NAME("UserDbBox");
+
+  final String id;
+  const UserDbConst(this.id);
+}

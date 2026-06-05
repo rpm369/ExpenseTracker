@@ -2,15 +2,14 @@ import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
 import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Utils/AuthValidators.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Passwdfield extends StatefulWidget {
   void Function(String?)? onSaved;
   bool forConformation;
   FocusNode focusNode;
-  User user;
   Passwdfield({
     this.onSaved,
-    required this.user,
     required this.focusNode,
     this.forConformation = false,
   });
@@ -19,6 +18,7 @@ class Passwdfield extends StatefulWidget {
 }
 
 class _PasswdfieldState extends State<Passwdfield> {
+  User? user;
   bool isHidden = true;
   late VoidCallback listener;
   GlobalKey<FormFieldState> passwdKey = GlobalKey();
@@ -32,7 +32,7 @@ class _PasswdfieldState extends State<Passwdfield> {
         if (controller.text.isNotEmpty) {
           bool isValid = passwdKey.currentState!.validate();
           if (isValid && !widget.forConformation)
-            widget.user.userPassword = controller.text;
+            user?.userPassword = controller.text;
         }
       } else {
         passwdKey?.currentState!.clearError();
@@ -57,6 +57,7 @@ class _PasswdfieldState extends State<Passwdfield> {
 
   @override
   Widget build(BuildContext context) {
+    user = context.read<User>();
     Color onSurface = Theme.of(context).colorScheme.onSurface;
 
     return TextFormField(
@@ -64,10 +65,8 @@ class _PasswdfieldState extends State<Passwdfield> {
       onFieldSubmitted: widget.onSaved,
       validator: (!widget.forConformation)
           ? AuthValidators.validPassword
-          : (value) => AuthValidators.validConformPassword(
-              value,
-              widget.user.userPasswd,
-            ),
+          : (value) =>
+                AuthValidators.validConformPassword(value, user!.userPassword),
       controller: controller,
       cursorColor: onSurface,
       focusNode: widget.focusNode,

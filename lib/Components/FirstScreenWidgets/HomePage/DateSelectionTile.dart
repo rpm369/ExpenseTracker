@@ -22,7 +22,7 @@ class DateSelectionTile extends StatelessWidget {
     return GestureDetector(
       onTap: () => changeSelectedDate(context),
       child: Container(
-        width: .infinity,
+        width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         alignment: Alignment.bottomLeft,
         decoration: BoxDecoration(

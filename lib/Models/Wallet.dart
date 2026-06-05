@@ -1,23 +1,26 @@
+import 'package:hive/hive.dart';
+
+part 'Wallet.g.dart';
+
+@HiveType(typeId: 1)
 class Wallet {
-  int? _id;
-  String _title;
-  double _totalAmount;
-  String? _imageURL;
+  @HiveField(0)
+  int? id;
+
+  @HiveField(1)
+  String title;
+
+  @HiveField(2)
+  double totalAmount;
+
+  @HiveField(3)
+  String? imageURL;
 
   Wallet({
-    this._id,
-    required this._title,
-    required this._totalAmount,
-    this._imageURL,
+    this.id,
+    required this.title,
+    required this.totalAmount,
+    this.imageURL,
   });
-
-  set id(int newId) => this._id;
-  set title(String newTitle) => this._title = newTitle;
-  set totalAmount(double newAmount) => this._totalAmount = newAmount;
-  set imageURL(String newURL) => this._imageURL = newURL;
-
-  int? get id => this._id;
-  String get title => this._title;
-  double get totalAmount => this._totalAmount;
-  String? get imageURL => this._imageURL;
 }
+
