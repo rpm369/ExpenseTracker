@@ -1,20 +1,15 @@
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
+import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Utils/AuthValidators.dart';
 
 import 'package:flutter/material.dart';
 
 class EmailField extends StatefulWidget {
-  TextEditingController controller;
-  GlobalKey<FormFieldState> emailkey;
+  User user;
   FocusNode node;
   void Function(String?)? onSaved;
 
-  EmailField({
-    required this.emailkey,
-    required this.controller,
-    required this.node,
-    this.onSaved,
-  });
+  EmailField({required this.node, this.onSaved, required this.user});
 
   @override
   State<EmailField> createState() => _EmailFieldState();
@@ -22,15 +17,19 @@ class EmailField extends StatefulWidget {
 
 class _EmailFieldState extends State<EmailField> {
   late VoidCallback listener;
+  TextEditingController controller = TextEditingController();
+  GlobalKey<FormFieldState> emailkey = GlobalKey();
 
   void initState() {
     super.initState();
     listener = () {
       if (!widget.node.hasFocus) {
-        if (widget.controller.text.isNotEmpty)
-          widget.emailkey.currentState!.validate();
+        if (controller.text.isNotEmpty) {
+          bool isValid = emailkey.currentState!.validate();
+          if (isValid) widget.user.userEmail = controller.text;
+        }
       } else {
-        widget.emailkey.currentState!.clearError();
+        emailkey.currentState!.clearError();
       }
     };
     widget.node.addListener(listener);
@@ -39,8 +38,8 @@ class _EmailFieldState extends State<EmailField> {
   Widget build(BuildContext context) {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
     return TextFormField(
-      key: widget.emailkey,
-      controller: widget.controller,
+      key: emailkey,
+      controller: controller,
       validator: AuthValidators.validateMail,
       onFieldSubmitted: widget.onSaved,
       cursorColor: onSurface,

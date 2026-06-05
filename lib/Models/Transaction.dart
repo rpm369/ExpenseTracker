@@ -1,6 +1,7 @@
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
 
 class Transaction {
+  int? _id;
   ExpenseCategory _category;
   String _title;
   double _amount;
@@ -8,6 +9,7 @@ class Transaction {
   DateTime _dateTime;
 
   Transaction({
+    this._id,
     required this._category,
     required this._title,
     required this._amount,
@@ -15,12 +17,14 @@ class Transaction {
     required this._dateTime,
   });
 
+  int? get id => this._id;
   ExpenseCategory get category => this._category;
   String get title => this._title;
   double get amount => this._amount;
   ExpenseType get type => this._type;
   DateTime get dateTime => this._dateTime;
 
+  set id(int newId) => id;
   set category(ExpenseCategory newCategory) => this._category = newCategory;
   set title(String newTitle) => this._title = newTitle;
   set amount(double newAmount) => this._amount = newAmount;

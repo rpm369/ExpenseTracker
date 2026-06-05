@@ -1,19 +1,18 @@
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
+import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Utils/AuthValidators.dart';
 import 'package:flutter/material.dart';
 
 class Passwdfield extends StatefulWidget {
-  GlobalKey<FormFieldState>? passwdKey;
-  TextEditingController controller;
   void Function(String?)? onSaved;
+  bool forConformation;
   FocusNode focusNode;
-  TextEditingController? passFieldController;
+  User user;
   Passwdfield({
     this.onSaved,
-    this.passwdKey,
-    this.passFieldController,
+    required this.user,
     required this.focusNode,
-    required this.controller,
+    this.forConformation = false,
   });
 
   State<Passwdfield> createState() => _PasswdfieldState();
@@ -22,16 +21,21 @@ class Passwdfield extends StatefulWidget {
 class _PasswdfieldState extends State<Passwdfield> {
   bool isHidden = true;
   late VoidCallback listener;
+  GlobalKey<FormFieldState> passwdKey = GlobalKey();
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     listener = () {
       if (!widget.focusNode.hasFocus) {
-        if (widget.controller.text.isNotEmpty)
-          widget.passwdKey?.currentState!.validate();
+        if (controller.text.isNotEmpty) {
+          bool isValid = passwdKey.currentState!.validate();
+          if (isValid && !widget.forConformation)
+            widget.user.userPassword = controller.text;
+        }
       } else {
-        widget.passwdKey?.currentState!.clearError();
+        passwdKey?.currentState!.clearError();
       }
       setState(() {});
     };
@@ -56,23 +60,21 @@ class _PasswdfieldState extends State<Passwdfield> {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
 
     return TextFormField(
-      key: widget.passwdKey,
+      key: passwdKey,
       onFieldSubmitted: widget.onSaved,
-      validator: (widget.passFieldController == null)
+      validator: (!widget.forConformation)
           ? AuthValidators.validPassword
           : (value) => AuthValidators.validConformPassword(
               value,
-              widget.passFieldController!.text,
+              widget.user.userPasswd,
             ),
-      controller: widget.controller,
+      controller: controller,
       cursorColor: onSurface,
       focusNode: widget.focusNode,
       style: TextStyle(fontSize: 16),
       obscureText: isHidden,
       decoration: AuthCommons.inputFieldDecoration(
-        hintText: (widget.passFieldController != null)
-            ? "Conform Password"
-            : "Password",
+        hintText: (widget.forConformation) ? "Conform Password" : "Password",
         prefixIcon: Icons.password,
         onSurface: onSurface,
         isTextHidden: (widget.focusNode.hasFocus == true) ? isHidden : null,

@@ -2,6 +2,7 @@ import 'package:expense_tracker/Components/AuthScreenWidgets/AuthButton.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/EmailField.dart';
 import 'package:expense_tracker/Components/AuthScreenWidgets/PasswdField.dart';
+import 'package:expense_tracker/Models/User.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -10,15 +11,12 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwdController = TextEditingController();
+  User user = User(userEmail: "", userName: "", userPassword: "");
 
   FocusNode emailNode = FocusNode();
   FocusNode passwdNode = FocusNode();
 
   GlobalKey<FormState> formKey = GlobalKey();
-  GlobalKey<FormFieldState> emailKey = GlobalKey();
-  GlobalKey<FormFieldState> passwdKey = GlobalKey();
 
   Widget build(BuildContext context) {
     Color secondaryColor = Theme.of(context).colorScheme.secondary;
@@ -49,16 +47,11 @@ class _LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           EmailField(
-            emailkey: emailKey,
             node: emailNode,
-            controller: emailController,
+            user: user,
             onSaved: (_) => passwdNode.requestFocus(),
           ),
-          Passwdfield(
-            focusNode: passwdNode,
-            controller: passwdController,
-            passwdKey: passwdKey,
-          ),
+          Passwdfield(focusNode: passwdNode, user: user),
           SizedBox(height: 10),
           AuthButton(isForSignUp: false, isLoading: false, onTap: () {}),
         ],
