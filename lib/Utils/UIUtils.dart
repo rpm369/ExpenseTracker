@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class UiUtils {
@@ -30,6 +32,7 @@ class UiUtils {
   }
 
   static Widget FormTextField({
+    Key? key,
     required BuildContext context,
     String? hintText,
     TextEditingController? controller,
@@ -40,6 +43,7 @@ class UiUtils {
   }) {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
     return TextFormField(
+      key: key,
       cursorColor: onSurface,
       style: TextStyle(fontSize: 20),
       controller: controller,
@@ -80,9 +84,13 @@ class UiUtils {
     );
   }
 
-  static Widget formButton({required Color primary, required String title}) {
+  static Widget formButton({
+    required Color primary,
+    required String title,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(5),
         alignment: Alignment.center,
@@ -102,14 +110,13 @@ class UiUtils {
     );
   }
 
-  static Widget avatar({
-    required String assetImageURL,
-    required double radius,
-  }) {
+  static Widget avatar({String? fileImageURL, required double radius}) {
     return CircleAvatar(
       backgroundColor: Colors.white,
       radius: radius,
-      backgroundImage: AssetImage(assetImageURL),
+      backgroundImage: (fileImageURL == null)
+          ? AssetImage("assets/images/defaultUser.jpg")
+          : FileImage(File(fileImageURL)),
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/TitleField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/EditNameField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/EditNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
@@ -47,7 +48,11 @@ class Updatewalletform extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _deleteButton(),
-        UiUtils.formButton(primary: primaryColor, title: "Update Wallet"),
+        UiUtils.formButton(
+          primary: primaryColor,
+          title: "Update Wallet",
+          onTap: () {},
+        ),
       ],
     );
   }
@@ -106,7 +111,7 @@ class Updatewalletform extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        EditNameField(callBack: (value) {}, existingText: wallet.title),
+        TitleField(node: FocusNode()),
       ],
     );
   }

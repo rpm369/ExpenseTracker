@@ -3,9 +3,11 @@ import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/NewTransa
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/HomePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/ProfilePage.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsPage.dart';
+import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+import 'package:provider/provider.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -17,18 +19,23 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
   List<Widget> pages = [HomePage(), StatsPage(), BalancePage(), ProfilePage()];
   int pageIndex = 0;
+  UserService userService = UserService();
 
   @override
   Widget build(BuildContext context) {
     Color bgColor = Theme.of(context).colorScheme.primary;
     return Scaffold(
       backgroundColor: bgColor,
-      body: SafeArea(child: pages[pageIndex]),
+      body: SafeArea(child: _buildBodyChild()),
       bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: (pageIndex == 0)
           ? _buildFloatingActionButton()
           : null,
     );
+  }
+
+  Widget _buildBodyChild() {
+    return pages[pageIndex];
   }
 
   Widget? _buildFloatingActionButton() {

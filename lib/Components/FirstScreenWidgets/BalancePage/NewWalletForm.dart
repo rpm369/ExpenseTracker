@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/AddWalletButton.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/TitleField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/EditNameField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/EditNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,14 @@ class NewWalletForm extends StatelessWidget {
                 },
               ),
             ),
-            UiUtils.formFooter(context: context, child: AddWalletButton()),
+            UiUtils.formFooter(
+              context: context,
+              child: UiUtils.formButton(
+                primary: primary,
+                title: "Add Wallet",
+                onTap: () {},
+              ),
+            ),
           ],
         ),
       ),
@@ -37,8 +43,7 @@ class NewWalletForm extends StatelessWidget {
   }
 
   Widget _inputFields() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
       children: [
         FormHeader(title: "New Wallet"),
         SizedBox(height: 30),
@@ -78,7 +83,7 @@ class NewWalletForm extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        EditNameField(callBack: (value) {}),
+        TitleField(node: FocusNode()),
       ],
     );
   }

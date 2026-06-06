@@ -6,6 +6,7 @@ import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Routes/FirstScreen.dart';
 import 'package:expense_tracker/Routes/AuthScreen.dart';
 import 'package:expense_tracker/Routes/Screen404.dart';
+import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Themes/ThemeProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,10 @@ void main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => systemDb)],
+      providers: [
+        ChangeNotifierProvider(create: (_) => systemDb),
+        ChangeNotifierProvider(create: (_) => UserService()),
+      ],
       child: MyApp(isUserActive), //bad practice
     ),
   );

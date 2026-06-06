@@ -58,11 +58,16 @@ class UserDb {
       if (listUser.userEmail == user.userEmail &&
           listUser.userPassword == user.userPassword) {
         tempUser = listUser;
+        break;
       }
     }
 
     activeUser = tempUser;
 
     return (activeUser == null) ? null : activeUser!.key as int;
+  }
+
+  Future<void> updateUser() async {
+    await activeUser!.save();
   }
 }

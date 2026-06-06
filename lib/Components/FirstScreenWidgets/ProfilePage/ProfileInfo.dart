@@ -1,17 +1,22 @@
+import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileInfo extends StatelessWidget {
-  const ProfileInfo({super.key});
+  UserService? userService;
 
-  @override
   Widget build(BuildContext context) {
+    userService = context.watch<UserService>();
     return Column(
       spacing: 15,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        UiUtils.avatar(assetImageURL: "assets/images/demo.png", radius: 90),
+        UiUtils.avatar(
+          fileImageURL: userService?.getActiveUser().imageURL,
+          radius: 90,
+        ),
         _userNameEmail(),
       ],
     );
@@ -22,11 +27,11 @@ class ProfileInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "Gautam Jangid",
+          userService?.getActiveUser().userName ?? "Nill",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         Text(
-          "jangidgautam07@gmail.com",
+          userService?.getActiveUser().userEmail ?? "xyz@gmail.com",
           style: TextStyle(fontSize: 18, color: Colors.grey),
         ),
       ],

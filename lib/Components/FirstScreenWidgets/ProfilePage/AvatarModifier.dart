@@ -1,19 +1,27 @@
 import 'dart:io';
 
-import 'package:expense_tracker/Services/FilePickerService.dart';
+import 'package:expense_tracker/Models/User.dart';
+import 'package:expense_tracker/Services/ImageProcessService.dart';
+import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-class AvatarModifier extends StatelessWidget {
-  void Function(File) callBack;
+class AvatarModifier extends StatefulWidget {
+  AvatarModifier();
+  @override
+  State<AvatarModifier> createState() => _AvatarModifierState();
+}
 
-  AvatarModifier({required this.callBack});
+class _AvatarModifierState extends State<AvatarModifier> {
+  User? user;
+
   @override
   Widget build(BuildContext context) {
+    user = context.read<User>();
     return Stack(
       children: [
-        UiUtils.avatar(assetImageURL: "assets/images/demo.png", radius: 95),
+        UiUtils.avatar(fileImageURL: user?.imageURL, radius: 95),
         Positioned(
           child: _buildEditButton(context: context),
           bottom: 0,
@@ -27,8 +35,12 @@ class AvatarModifier extends StatelessWidget {
     Brightness brightness = Theme.of(context).colorScheme.brightness;
     return GestureDetector(
       onTap: () async {
-        File? file = await FilePickerService.getFileFromUser();
-        if (file != null) callBack(file);
+        String? tempPath = await ImageProcessingService.getImageFromUser();
+        if (tempPath != null) {
+          setState(() {
+            user?.imageURL = tempPath;
+          });
+        }
       },
       child: Container(
         padding: EdgeInsets.all(5),

@@ -37,7 +37,11 @@ class NewTransactionForm extends StatelessWidget {
           ),
           UiUtils.formFooter(
             context: context,
-            child: UiUtils.formButton(primary: primary, title: "Submit"),
+            child: UiUtils.formButton(
+              primary: primary,
+              title: "Submit",
+              onTap: () {},
+            ),
           ),
         ],
       ),
