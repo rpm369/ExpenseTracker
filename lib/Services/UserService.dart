@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:expense_tracker/Database/UserDb.dart';
 import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Services/ImageProcessService.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 class UserService extends ChangeNotifier {
@@ -17,8 +16,6 @@ class UserService extends ChangeNotifier {
     bool needToUpdate = false;
 
     if (activeUser.imageURL != user.imageURL) {
-      print(activeUser.imageURL);
-      print(user.imageURL);
       String newImageUrl = await ImageProcessingService.saveUserImage(
         tempImageUrl: user.imageURL!,
         userKey: activeUser.key,

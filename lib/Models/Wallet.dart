@@ -22,4 +22,9 @@ class Wallet extends HiveObject {
     required this.totalAmount,
     this.imageURL,
   });
+
+  @override
+  String toString() {
+    return "$id - $title - $totalAmount - $imageURL";
+  }
 }

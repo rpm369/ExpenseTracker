@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UpdateWalletForm.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
+import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WalletTile extends StatelessWidget {
   Wallet wallet;
@@ -15,10 +17,11 @@ class WalletTile extends StatelessWidget {
     Color onSurface = Theme.of(context).colorScheme.onSurface;
     return GestureDetector(
       onTap: () {
-        // UiUtils.displayBottomSheet(
-        //   sheetContent: Updatewalletform(wallet: wallet),
-        //   context: context,
-        // );
+        context.read<WalletServices>().selectedWalletForForm = wallet;
+        UiUtils.displayBottomSheet(
+          sheetContent: Updatewalletform(),
+          context: context,
+        );
       },
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 10),

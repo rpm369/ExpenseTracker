@@ -1,22 +1,21 @@
-import 'package:expense_tracker/Models/User.dart';
-import 'package:expense_tracker/Services/UserService.dart';
+import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TitleField extends StatelessWidget {
+class WalletNameField extends StatelessWidget {
   FocusNode node;
   TextEditingController? controller;
   GlobalKey<FormFieldState> formTextkey = GlobalKey();
-  UserService? user;
+  Wallet? wallet;
 
-  TitleField({required this.node}) {
+  WalletNameField({required this.node}) {
     node.addListener(() {
       if (!node.hasFocus) {
-        if (controller!.text.isEmpty)
-          formTextkey.currentState!.validate();
-        else
-          print("Hello");
+        if (controller!.text.isNotEmpty) {
+          bool status = formTextkey.currentState!.validate();
+          if (status) wallet!.title = controller!.text;
+        }
       } else {
         formTextkey.currentState!.clearError();
       }
@@ -25,8 +24,8 @@ class TitleField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    user = context.read<UserService>();
-    controller = TextEditingController(text: "Nothing");
+    wallet = context.read<Wallet>();
+    controller = TextEditingController(text: wallet!.title);
 
     return UiUtils.FormTextField(
       key: formTextkey,

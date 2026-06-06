@@ -1,8 +1,11 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/NewWalletForm.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/PageHeader.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletList.dart';
 import 'package:expense_tracker/Database/DummyWallets.dart';
+import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BalancePage extends StatelessWidget {
   @override
@@ -20,7 +23,7 @@ class BalancePage extends StatelessWidget {
               left: 0,
               right: 0,
               height: headerHeight,
-              child: _buildPageHeader(context: context, amount: 300),
+              child: PageHeader(),
             ),
             Positioned(
               top: headerHeight - overlap,
@@ -54,7 +57,7 @@ class BalancePage extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(0),
-              child: WalletList(listData: dummyWallets, isScrollable: true),
+              child: Center(child: WalletList(isScrollable: true)),
             ),
           ),
         ],
@@ -96,34 +99,6 @@ class BalancePage extends StatelessWidget {
         padding: EdgeInsets.all(0),
         backgroundColor: Colors.deepOrange,
         shape: CircleBorder(eccentricity: 0),
-      ),
-    );
-  }
-
-  Widget _buildPageHeader({
-    required BuildContext context,
-    required double amount,
-  }) {
-    Color surface = Theme.of(context).colorScheme.surface;
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(color: surface),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _commonTextWidget(
-            title: "\$ ${amount.toStringAsFixed(2)}",
-            textSize: 35,
-            letterSpacing: 2,
-            fontWeight: FontWeight.bold,
-          ),
-          _commonTextWidget(
-            title: "Total Balance",
-            textSize: 15,
-            textColor: Colors.grey,
-          ),
-        ],
       ),
     );
   }

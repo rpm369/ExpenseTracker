@@ -1,45 +1,77 @@
 import 'dart:io';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/TitleField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/EditNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
+import 'package:expense_tracker/Models/Wallet.dart';
+import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class NewWalletForm extends StatelessWidget {
+class NewWalletForm extends StatefulWidget {
+  @override
+  State<NewWalletForm> createState() => _NewWalletFormState();
+}
+
+class _NewWalletFormState extends State<NewWalletForm> {
   GlobalKey<FormState> formKey = GlobalKey();
-  ValueNotifier<File?> selectedFile = ValueNotifier(null);
+  FocusNode nameNode = FocusNode();
+
+  bool isLoading = false;
+
+  Wallet wallet = Wallet(title: "", totalAmount: 0);
 
   Widget build(BuildContext context) {
     Color primary = Theme.of(context).colorScheme.primary;
     return Padding(
       padding: EdgeInsets.all(15),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ValueListenableBuilder(
-                valueListenable: selectedFile,
-                builder: (_, _, _) {
-                  return _inputFields();
-                },
-              ),
+      child: (isLoading)
+          ? Center(child: CircularProgressIndicator(color: Colors.blue))
+          : _buildForm(),
+    );
+  }
+
+  Widget _buildForm() {
+    Color primary = Theme.of(context).colorScheme.primary;
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Provider(create: (_) => wallet, child: _inputFields()),
+          ),
+          UiUtils.formFooter(
+            context: context,
+            child: UiUtils.formButton(
+              primary: primary,
+              title: "Add Wallet",
+              onTap: onSubmission,
             ),
-            UiUtils.formFooter(
-              context: context,
-              child: UiUtils.formButton(
-                primary: primary,
-                title: "Add Wallet",
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> onSubmission() async {
+    if (isLoading || !formKey.currentState!.validate()) return;
+    if (nameNode.hasFocus) nameNode.unfocus();
+
+    setState(() {
+      isLoading = true;
+    });
+
+    WalletServices walletService = context.read<WalletServices>();
+    bool successStatus = await walletService.createNewWallet(newWallet: wallet);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (successStatus) Navigator.pop(context);
+    });
   }
 
   Widget _inputFields() {
@@ -51,13 +83,6 @@ class NewWalletForm extends StatelessWidget {
         SizedBox(height: 20),
         _buildUploadImageButton(),
         SizedBox(height: 20),
-        if (selectedFile.value != null)
-          ImageViewer(
-            imageFile: selectedFile.value!,
-            callBack: () {
-              selectedFile.value = null;
-            },
-          ),
       ],
     );
   }
@@ -68,11 +93,7 @@ class NewWalletForm extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Icon", fontSize: 22),
-        UploadImageButton(
-          callBack: (imageFile) {
-            selectedFile.value = imageFile;
-          },
-        ),
+        UploadImageButton(),
       ],
     );
   }
@@ -83,7 +104,7 @@ class NewWalletForm extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        TitleField(node: FocusNode()),
+        WalletNameField(node: nameNode),
       ],
     );
   }

@@ -1,43 +1,105 @@
 import 'dart:io';
 
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/TitleField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/ProfilePage/EditNameField.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
+import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Updatewalletform extends StatelessWidget {
-  Wallet wallet;
-  ValueNotifier<File?> imageFile;
+class Updatewalletform extends StatefulWidget {
+  @override
+  State<Updatewalletform> createState() => _UpdatewalletformState();
+}
 
-  Updatewalletform({required this.wallet})
-    : imageFile = ValueNotifier(File(wallet.imageURL!));
-
+class _UpdatewalletformState extends State<Updatewalletform> {
   GlobalKey<FormState> formKey = GlobalKey();
+
+  Wallet? newWallet;
+
+  FocusNode nameNode = FocusNode();
+
+  bool isLoading = false;
+
+  Future<void> updateMethod() async {
+    if (isLoading || !formKey.currentState!.validate()) return;
+    if (nameNode.hasFocus) nameNode.unfocus();
+
+    setState(() {
+      isLoading = true;
+    });
+
+    bool successStatus = await context.read<WalletServices>().updateWallet(
+      newWallet: newWallet!,
+    );
+
+    setState(() {
+      isLoading = false;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (successStatus) Navigator.pop(context);
+    });
+  }
+
+  Future<void> onDelete() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool successStatus = await context
+        .read<WalletServices>()
+        .deleteSelectedWallet();
+
+    setState(() {
+      isLoading = false;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (successStatus) Navigator.pop(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Color primary = Theme.of(context).colorScheme.primary;
+    Wallet selectedWallet = context
+        .read<WalletServices>()
+        .selectedWalletForForm!;
+
+    newWallet = Wallet(
+      title: selectedWallet.title,
+      totalAmount: selectedWallet.totalAmount,
+      imageURL: selectedWallet.imageURL,
+    );
 
     return Padding(
       padding: EdgeInsets.all(15),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            FormHeader(title: "Updated Wallet"),
-            SizedBox(height: 30),
-            Expanded(child: _formFields()),
-            UiUtils.formFooter(
-              context: context,
-              child: _buildFooterContent(primaryColor: primary),
-            ),
-          ],
-        ),
+      child: Provider(
+        create: (_) => newWallet,
+        child: (isLoading)
+            ? Center(child: CircularProgressIndicator(color: Colors.blue))
+            : _buildForm(),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    Color primary = Theme.of(context).colorScheme.primary;
+    return Form(
+      key: formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          FormHeader(title: "Updated Wallet"),
+          SizedBox(height: 30),
+          Expanded(child: _formFields()),
+          UiUtils.formFooter(
+            context: context,
+            child: _buildFooterContent(primaryColor: primary),
+          ),
+        ],
       ),
     );
   }
@@ -51,7 +113,7 @@ class Updatewalletform extends StatelessWidget {
         UiUtils.formButton(
           primary: primaryColor,
           title: "Update Wallet",
-          onTap: () {},
+          onTap: updateMethod,
         ),
       ],
     );
@@ -59,7 +121,7 @@ class Updatewalletform extends StatelessWidget {
 
   Widget _deleteButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onDelete,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,
         padding: EdgeInsets.all(10),
@@ -77,12 +139,7 @@ class Updatewalletform extends StatelessWidget {
       children: [
         _buildUpdateWalletField(),
         SizedBox(height: 20),
-        ValueListenableBuilder(
-          valueListenable: imageFile,
-          builder: (_, _, _) {
-            return _buildWalletIcon();
-          },
-        ),
+        _buildWalletIcon(),
       ],
     );
   }
@@ -93,14 +150,7 @@ class Updatewalletform extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Icon", fontSize: 22),
-        (imageFile.value != null)
-            ? ImageViewer(
-                imageFile: File("assets/images/demo.png"),
-                callBack: () {
-                  imageFile.value = null;
-                },
-              )
-            : UploadImageButton(callBack: (file) => imageFile.value = file),
+        UploadImageButton(),
       ],
     );
   }
@@ -111,7 +161,7 @@ class Updatewalletform extends StatelessWidget {
       spacing: 15,
       children: [
         _commonText(title: "Wallet Name", fontSize: 22),
-        TitleField(node: FocusNode()),
+        WalletNameField(node: nameNode),
       ],
     );
   }

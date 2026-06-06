@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ImageViewer extends StatelessWidget {
-  final File imageFile;
-  final VoidCallback? callBack;
+  String imageUrl;
+  VoidCallback? onCancel;
 
-  const ImageViewer({super.key, required this.imageFile, this.callBack});
+  ImageViewer({super.key, required this.imageUrl, this.onCancel});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ImageViewer extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
-                image: FileImage(imageFile),
+                image: FileImage(File(imageUrl)),
                 fit: BoxFit.cover,
               ),
             ),
@@ -33,7 +33,7 @@ class ImageViewer extends StatelessWidget {
 
   Widget _buildCancelButton() {
     return GestureDetector(
-      onTap: callBack,
+      onTap: onCancel,
       child: Container(
         width: 28,
         height: 28,
