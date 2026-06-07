@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ErrorDialog.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
+import 'package:expense_tracker/Errors.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
@@ -31,9 +33,16 @@ class _UpdatewalletformState extends State<Updatewalletform> {
       isLoading = true;
     });
 
-    bool successStatus = await context.read<WalletServices>().updateWallet(
-      newWallet: newWallet!,
-    );
+    bool successStatus = true;
+    try {
+      await context.read<WalletServices>().updateWallet(newWallet: newWallet!);
+    } on DuplicateEntityException {
+      successStatus = false;
+      showDialog(
+        context: context,
+        builder: (_) => ErrorDialog(message: "Wallet already exist!"),
+      );
+    }
 
     setState(() {
       isLoading = false;

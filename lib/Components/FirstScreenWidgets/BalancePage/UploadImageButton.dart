@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ImageViewer.dart';
-import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Services/ImageProcessService.dart';
 import 'package:flutter/material.dart';

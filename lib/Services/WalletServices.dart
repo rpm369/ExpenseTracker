@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:expense_tracker/Database/WalletDb.dart';
+import 'package:expense_tracker/Errors.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Services/ImageProcessService.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,12 @@ class WalletServices extends ChangeNotifier {
   Future<bool> createNewWallet({required Wallet newWallet}) async {
     await Future.delayed(Duration(seconds: 3));
     WalletDb walletDb = await WalletDb.getDb();
+
+    if (await _doesWalletExist(wallet: newWallet))
+      throw DuplicateEntityException(
+        message: "Wallet exist already",
+        completionStatus: false,
+      );
 
     int key = await walletDb.addNewWallet(wallet: newWallet);
     newWallet.id = key;
@@ -30,6 +37,9 @@ class WalletServices extends ChangeNotifier {
 
   Future<bool> deleteSelectedWallet() async {
     await Future.delayed(Duration(seconds: 3));
+    await ImageProcessingService.deleteWalletImage(
+      imagePath: selectedWalletForForm!.imageURL,
+    );
     await (await WalletDb.getDb()).deleteWallet(wallet: selectedWalletForForm!);
     notifyListeners();
     return true;
@@ -38,26 +48,47 @@ class WalletServices extends ChangeNotifier {
   Future<bool> updateWallet({required Wallet newWallet}) async {
     await Future.delayed(Duration(seconds: 3));
 
-    bool needToUpdate = false;
+    if (await _doesWalletExist(wallet: newWallet))
+      throw DuplicateEntityException(
+        message: "Wallet already exist",
+        completionStatus: false,
+      );
 
     if (newWallet.title != selectedWalletForForm!.title) {
       selectedWalletForForm!.title = newWallet.title;
-      needToUpdate = true;
     }
-    if (newWallet.imageURL != selectedWalletForForm!.imageURL) {
-      String samePath = await ImageProcessingService.saveWalletImage(
+
+    if (newWallet.imageURL == null) {
+      await ImageProcessingService.deleteWalletImage(
+        imagePath: selectedWalletForForm!.imageURL,
+      );
+      selectedWalletForForm!.imageURL = null;
+    } else if (newWallet.imageURL != selectedWalletForForm!.imageURL) {
+      String sameOrNewPath = await ImageProcessingService.saveWalletImage(
         tempImageUrl: newWallet.imageURL!,
         walletKey: selectedWalletForForm!.key,
       );
-      await FileImage(File(samePath)).evict();
-      //update is not require since only the content is changed and not the path+image on the disk.
+      selectedWalletForForm!.imageURL = sameOrNewPath;
+      await FileImage(File(sameOrNewPath)).evict();
     }
 
-    if (needToUpdate)
-      (await WalletDb.getDb()).update(wallet: selectedWalletForForm!);
+    (await WalletDb.getDb()).update(wallet: selectedWalletForForm!);
 
     notifyListeners();
     return true;
+  }
+
+  Future<bool> _doesWalletExist({required Wallet wallet}) async {
+    String title = wallet.title;
+
+    List<Wallet> walletList = await getAllWallets();
+
+    Wallet walletInList = walletList.firstWhere(
+      (wallet) => wallet.title == title,
+      orElse: () => Wallet(title: "", totalAmount: 0),
+    );
+
+    return walletInList.title.isNotEmpty;
   }
 
   Future<double> getTotalBalance() async {
@@ -69,7 +100,6 @@ class WalletServices extends ChangeNotifier {
   }
 
   Future<List<Wallet>> getAllWallets() async {
-    await Future.delayed(Duration(seconds: 3));
     WalletDb walletDb = await WalletDb.getDb();
 
     List<Wallet> walletList = walletDb.getWalletList();

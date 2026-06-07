@@ -2,8 +2,10 @@ import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/BalanceCa
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/ListSearchField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
 import 'package:expense_tracker/Database/DummyTransactions.dart';
+import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -64,6 +66,8 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildHeadColumn(BuildContext context) {
+    String? userName = context.read<UserService>().getActiveUser().userName;
+
     Color secondary = Theme.of(context).colorScheme.secondary;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +75,7 @@ class HomePage extends StatelessWidget {
       children: [
         Text("Hello,", style: TextStyle(color: secondary, fontSize: 20)),
         Text(
-          "Gautam Jangid",
+          userName ?? "Unknown",
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
         ),

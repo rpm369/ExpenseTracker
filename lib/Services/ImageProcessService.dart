@@ -36,6 +36,15 @@ class ImageProcessingService {
     return targetFile.path;
   }
 
+  static Future<void> deleteWalletImage({required String? imagePath}) async {
+    if (imagePath == null) return;
+    File walletImage = File(imagePath);
+
+    if (await walletImage.exists()) {
+      await walletImage.delete();
+    }
+  }
+
   static Future<String> saveUserImage({
     required String tempImageUrl,
     required int userKey,
