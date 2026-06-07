@@ -1,37 +1,61 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
-import 'package:expense_tracker/Database/DummyTransactions.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/SearchableList.dart';
+
 import 'package:expense_tracker/Models/Transaction.dart';
+import 'package:expense_tracker/Services/TransactionServices.dart';
 import 'package:expense_tracker/Utils/DateTimeUtils.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ListSearchField extends StatelessWidget {
-  ValueNotifier<List<Transaction>> buffer = ValueNotifier(dummyTransactions);
+class ListSearchField extends StatefulWidget {
+  @override
+  State<ListSearchField> createState() => _ListSearchFieldState();
+}
+
+class _ListSearchFieldState extends State<ListSearchField> {
+  List<Transaction>? originalList;
+  List<Transaction>? buffer;
+
+  bool isLoading = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    isLoading = true;
+    context.watch<TransactionServices>().fetchAllTransactions().then((list) {
+      setState(() {
+        buffer = list;
+        originalList = list;
+        isLoading = false;
+      });
+    });
+  }
 
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      child: Column(
-        children: [
-          FormHeader(title: "Search"),
-          SizedBox(height: 15),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
-              children: [
-                _searchField(context: context),
-                ValueListenableBuilder(
-                  valueListenable: buffer,
-                  builder: (_, data, _) {
-                    return TransactionList(data: data, isScrollable: false);
-                  },
-                ),
-              ],
-            ),
+      child: (isLoading)
+          ? Center(child: CircularProgressIndicator(color: Colors.blue))
+          : _buildSearchableList(),
+    );
+  }
+
+  Widget _buildSearchableList() {
+    return Column(
+      children: [
+        FormHeader(title: "Search"),
+        SizedBox(height: 15),
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 15),
+            children: [
+              _searchField(context: context),
+              SearchableList(data: buffer!),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -48,11 +72,13 @@ class ListSearchField extends StatelessWidget {
     query = query.toLowerCase();
 
     if (query.isEmpty) {
-      buffer.value = dummyTransactions;
+      setState(() {
+        buffer = originalList;
+      });
       return;
     }
 
-    buffer.value = dummyTransactions.where((transaction) {
+    List<Transaction> filteredList = originalList!.where((transaction) {
       String category = transaction.category.id.toLowerCase();
       String title = transaction.title.toLowerCase();
       String amount = transaction.amount.toString().toLowerCase();
@@ -65,5 +91,9 @@ class ListSearchField extends StatelessWidget {
           amount.contains(query) ||
           date.contains(query));
     }).toList();
+
+    setState(() {
+      buffer = filteredList;
+    });
   }
 }

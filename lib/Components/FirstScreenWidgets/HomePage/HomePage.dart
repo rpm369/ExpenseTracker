@@ -1,13 +1,15 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/BalanceCard.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/ListSearchField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
-import 'package:expense_tracker/Database/DummyTransactions.dart';
+import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  ValueNotifier<List<Transaction>?> transactionList = ValueNotifier(null);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,11 +20,11 @@ class HomePage extends StatelessWidget {
         children: [
           _pageHeader(context),
           SizedBox(height: 20),
-          StackedBalanceCard(totalIncome: 1000, expense: 200, income: 800),
+          StackedBalanceCard(),
           SizedBox(height: 20),
           _listText(title: "Recent Transactions"),
           SizedBox(height: 5),
-          Expanded(child: TransactionList(data: dummyTransactions)),
+          Expanded(child: TransactionList()),
         ],
       ),
     );

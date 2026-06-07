@@ -1,18 +1,19 @@
+import 'package:expense_tracker/Services/TransactionServices.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StackedBalanceCard extends StatelessWidget {
-  double totalIncome;
-  double income;
-  double expense;
-
-  StackedBalanceCard({
-    required this.totalIncome,
-    required this.income,
-    required this.expense,
-  });
+  ValueNotifier<double?> totalIncome = ValueNotifier(null);
+  ValueNotifier<double?> income = ValueNotifier(null);
+  ValueNotifier<double?> expense = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
+    context.watch<TransactionServices>().getBalanceStatus().then((map) {
+      totalIncome.value = map['Total'];
+      income.value = map['Income'];
+      expense.value = map['Expense'];
+    });
     // We define a standard width so the background cards scale down proportionately
     const double cardWidth = 350.0;
     const double cardHeight = 180.0;
@@ -80,13 +81,18 @@ class StackedBalanceCard extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Text(
-                    "\$ ${totalIncome.toStringAsFixed(2)}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  ValueListenableBuilder(
+                    valueListenable: totalIncome,
+                    builder: (_, _, _) {
+                      return Text(
+                        "\$ ${totalIncome.value?.toStringAsFixed(2) ?? "\----"}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 10),
                   // Income and Expense Row
@@ -94,18 +100,32 @@ class StackedBalanceCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Income Section
-                      _buildFinancialStat(
-                        label: 'Income',
-                        amount: '\$ ${income.toStringAsFixed(2)}',
-                        amountColor: const Color(0xFF2E7D32), // Custom Green
-                        icon: Icons.arrow_downward,
+                      ValueListenableBuilder(
+                        valueListenable: income,
+                        builder: (_, _, _) {
+                          return _buildFinancialStat(
+                            label: 'Income',
+                            amount:
+                                '\$ ${income.value?.toStringAsFixed(2) ?? "\----"}',
+                            amountColor: const Color(
+                              0xFF2E7D32,
+                            ), // Custom Green
+                            icon: Icons.arrow_downward,
+                          );
+                        },
                       ),
                       // Expense Section
-                      _buildFinancialStat(
-                        label: 'Expense',
-                        amount: '\$ ${expense.toStringAsFixed(2)}',
-                        amountColor: const Color(0xFFC62828), // Custom Red
-                        icon: Icons.arrow_upward,
+                      ValueListenableBuilder(
+                        valueListenable: expense,
+                        builder: (_, _, _) {
+                          return _buildFinancialStat(
+                            label: 'Expense',
+                            amount:
+                                '\$ ${expense.value?.toStringAsFixed(2) ?? '\----'}',
+                            amountColor: const Color(0xFFC62828), // Custom Red
+                            icon: Icons.arrow_upward,
+                          );
+                        },
                       ),
                     ],
                   ),

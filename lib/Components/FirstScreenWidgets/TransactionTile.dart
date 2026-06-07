@@ -1,5 +1,6 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/CategoryVisuals.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:expense_tracker/Models/ExpenseType.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Utils/DateTimeUtils.dart';
 import 'package:flutter/material.dart';

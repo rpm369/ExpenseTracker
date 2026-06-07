@@ -1,11 +1,14 @@
 import 'package:expense_tracker/Database/SystemDb.dart';
 import 'package:expense_tracker/Database/UserDb.dart';
+import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:expense_tracker/Models/ExpenseType.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Models/User.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Routes/FirstScreen.dart';
 import 'package:expense_tracker/Routes/AuthScreen.dart';
 import 'package:expense_tracker/Routes/Screen404.dart';
+import 'package:expense_tracker/Services/TransactionServices.dart';
 import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Services/WalletServices.dart';
 import 'package:expense_tracker/Themes/ThemeProvider.dart';
@@ -20,6 +23,8 @@ void main() async {
   Hive.registerAdapter(UserAdapter());
   Hive.registerAdapter(TransactionAdapter());
   Hive.registerAdapter(WalletAdapter());
+  Hive.registerAdapter(ExpenseCategoryAdapter());
+  Hive.registerAdapter(ExpenseTypeAdapter());
 
   SystemDb systemDb = await SystemDb.getDatabase();
   await UserDb.loadDb();
@@ -32,6 +37,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => systemDb),
         ChangeNotifierProvider(create: (_) => UserService()),
         ChangeNotifierProvider(create: (_) => WalletServices()),
+        ChangeNotifierProvider(create: (_) => TransactionServices()),
       ],
       child: MyApp(isUserActive), //bad practice
     ),

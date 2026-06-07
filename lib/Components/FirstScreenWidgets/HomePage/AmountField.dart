@@ -4,10 +4,9 @@ import 'package:flutter/widgets.dart';
 
 class AmountField extends StatelessWidget {
   void Function(double) callBack;
+  FocusNode node;
 
-  AmountField({required this.callBack}) {
-    callBack(0);
-
+  AmountField({required this.callBack, required this.node}) {
     node.addListener(() {
       if (!node.hasFocus) {
         String userAmount = (controller.text.isEmpty) ? "0" : controller.text;
@@ -16,9 +15,7 @@ class AmountField extends StatelessWidget {
       }
     });
   }
-
-  FocusNode node = FocusNode();
-  TextEditingController controller = TextEditingController(text: "0");
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

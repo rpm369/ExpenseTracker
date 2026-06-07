@@ -38,6 +38,7 @@ class UiUtils {
     TextEditingController? controller,
     FocusNode? node,
     TextInputType? keyboardType,
+    void Function(String?)? onSaved,
     void Function(String)? onChange,
     String? Function(String?)? validator,
   }) {
@@ -45,6 +46,7 @@ class UiUtils {
     return TextFormField(
       key: key,
       cursorColor: onSurface,
+      onSaved: onSaved,
       style: TextStyle(fontSize: 20),
       controller: controller,
       onChanged: onChange,

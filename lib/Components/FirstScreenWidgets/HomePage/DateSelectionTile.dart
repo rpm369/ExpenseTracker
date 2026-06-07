@@ -6,15 +6,16 @@ class DateSelectionTile extends StatelessWidget {
   void Function(DateTime) callBack;
 
   DateSelectionTile({required this.callBack})
-    : selectedDate = ValueNotifier(DateTime.now()) {
-    callBack(selectedDate.value);
-  }
+    : selectedDate = ValueNotifier(DateTime.now());
 
   late ValueNotifier<DateTime> selectedDate;
 
   Future<void> changeSelectedDate(BuildContext context) async {
     DateTime? temp = await _datePicker(context);
-    if (temp != null) selectedDate.value = temp;
+    if (temp != null) {
+      selectedDate.value = temp;
+      callBack(selectedDate.value);
+    }
   }
 
   @override

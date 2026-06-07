@@ -1,4 +1,4 @@
-class AuthValidators {
+class Validators {
   static bool _doesNotExist(String? value) {
     return (value == null || value.isEmpty);
   }
@@ -33,5 +33,9 @@ Your password needs to be at least 6 characters long and include a mix of:
     if (_doesNotExist(value)) return "Field is Required";
 
     if (value != originalPassword) return "Password Mismatch !";
+  }
+
+  static String? requiredField(String? value) {
+    if (value!.isEmpty) return "Field is Required";
   }
 }

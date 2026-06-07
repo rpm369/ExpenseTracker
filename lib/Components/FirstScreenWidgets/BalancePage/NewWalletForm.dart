@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/ErrorDialog.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/ErrorDialog.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/WalletNameField.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/BalancePage/UploadImageButton.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';

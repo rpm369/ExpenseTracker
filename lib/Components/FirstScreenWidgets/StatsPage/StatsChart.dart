@@ -1,3 +1,4 @@
+import 'package:expense_tracker/Models/ExpenseType.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsPage.dart';
@@ -127,11 +128,13 @@ class StatsChart extends StatelessWidget {
           ),
         );
 
-        bottomLabels.add(i == 0
-            ? "This Wk"
-            : i == 1
-                ? "Last Wk"
-                : "Wk -${i}");
+        bottomLabels.add(
+          i == 0
+              ? "This Wk"
+              : i == 1
+              ? "Last Wk"
+              : "Wk -${i}",
+        );
       }
     } else {
       // Yearly: 12 months going backwards (index 0: this month)
@@ -275,10 +278,7 @@ class StatsChart extends StatelessWidget {
             drawVerticalLine: false,
             horizontalInterval: calculatedMaxY / 3,
             getDrawingHorizontalLine: (value) {
-              return FlLine(
-                color: Colors.grey.withAlpha(25),
-                strokeWidth: 1,
-              );
+              return FlLine(color: Colors.grey.withAlpha(25), strokeWidth: 1);
             },
           ),
           borderData: FlBorderData(show: false),

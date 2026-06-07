@@ -1,10 +1,11 @@
 import 'package:expense_tracker/Database/Constants.dart';
 import 'package:expense_tracker/Errors.dart';
+import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:hive/hive.dart';
 
 class TransactionDb {
   TransactionDb._();
-  static Box? _db;
+  static Box<Transaction>? _db;
 
   static TransactionDb getDb() {
     if (_db == null)
@@ -24,5 +25,17 @@ class TransactionDb {
   static Future<void> closeDb() async {
     await _db!.close();
     _db = null;
+  }
+
+  Future<int> addNewTransaction({required Transaction newTransaction}) async {
+    return await _db!.add(newTransaction);
+  }
+
+  Future<void> updateTransaction({required Transaction transaction}) async {
+    await transaction.save();
+  }
+
+  List<Transaction> getAllTransactions() {
+    return _db!.values.toList();
   }
 }

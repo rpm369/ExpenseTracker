@@ -37,6 +37,10 @@ class WalletDb {
     await wallet.save();
   }
 
+  Future<Wallet> getWallet({required int id}) async {
+    return await _db!.get(id)!;
+  }
+
   List<Wallet> getWalletList() {
     return _db!.values.toList();
   }

@@ -100,6 +100,7 @@ class WalletServices extends ChangeNotifier {
   }
 
   Future<List<Wallet>> getAllWallets() async {
+    await Future.delayed(Duration(seconds: 2));
     WalletDb walletDb = await WalletDb.getDb();
 
     List<Wallet> walletList = walletDb.getWalletList();

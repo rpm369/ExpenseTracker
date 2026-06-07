@@ -1,6 +1,6 @@
 import 'package:expense_tracker/Components/AuthScreenWidgets/AuthCommons.dart';
 import 'package:expense_tracker/Models/User.dart';
-import 'package:expense_tracker/Utils/AuthValidators.dart';
+import 'package:expense_tracker/Utils/Validators.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +42,7 @@ class _EmailFieldState extends State<EmailField> {
     return TextFormField(
       key: emailkey,
       controller: controller,
-      validator: AuthValidators.validateMail,
+      validator: (value) => Validators.validateMail(value!.trim()),
       onFieldSubmitted: widget.onSaved,
       cursorColor: onSurface,
       focusNode: widget.node,

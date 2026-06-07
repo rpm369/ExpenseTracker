@@ -1,22 +1,23 @@
+import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:flutter/material.dart';
 
-class ModExpansionTile extends StatelessWidget {
-  List<String> children;
-  void Function(String) callBack;
+class WalletExpensionTile extends StatelessWidget {
+  List<Wallet> children;
+  void Function(int) onWalletSelection;
   EdgeInsetsGeometry? padding;
 
-  ModExpansionTile({
+  WalletExpensionTile({
     this.padding,
     required this.children,
-    required this.callBack,
-  }) : selectedElement = ValueNotifier(children![0]);
+    required this.onWalletSelection,
+  }) : selectedElement = ValueNotifier((children.isEmpty) ? null : children[0]);
 
-  late ValueNotifier<String> selectedElement;
+  late ValueNotifier<Wallet?> selectedElement;
   ExpansibleController controller = ExpansibleController();
 
-  void changeSelectedElement(String element) {
-    selectedElement.value = element;
-    callBack(selectedElement.value);
+  void changeSelectedElement(Wallet wallet) {
+    selectedElement.value = wallet;
+    onWalletSelection(selectedElement.value!.id!);
     controller.collapse();
   }
 
@@ -37,17 +38,17 @@ class ModExpansionTile extends StatelessWidget {
         iconColor: Colors.white,
         controller: controller,
         title: _buildText(),
-        children: _buildChildren() ?? [],
+        children: _buildChildren(),
       ),
     );
   }
 
-  List<Widget>? _buildChildren() {
+  List<Widget> _buildChildren() {
     return children
         .map(
-          (element) => ListTile(
-            title: Text(element),
-            onTap: () => changeSelectedElement(element),
+          (wallet) => ListTile(
+            title: Text(wallet.title),
+            onTap: () => changeSelectedElement(wallet),
           ),
         )
         .toList();
@@ -56,8 +57,11 @@ class ModExpansionTile extends StatelessWidget {
   Widget _buildText() {
     return ValueListenableBuilder(
       valueListenable: selectedElement,
-      builder: (_, selectedElement, _) {
-        return Text(selectedElement, style: TextStyle(fontSize: 20));
+      builder: (_, wallet, _) {
+        return Text(
+          wallet?.title ?? "No Wallet Found",
+          style: TextStyle(fontSize: 20),
+        );
       },
     );
   }

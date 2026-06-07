@@ -1,4 +1,5 @@
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:expense_tracker/Models/ExpenseType.dart';
 import 'package:hive/hive.dart';
 
 part 'Transaction.g.dart';
@@ -23,6 +24,9 @@ class Transaction extends HiveObject {
   @HiveField(5)
   DateTime dateTime;
 
+  @HiveField(6)
+  int walletId;
+
   Transaction({
     this.id,
     required this.category,
@@ -30,5 +34,11 @@ class Transaction extends HiveObject {
     required this.amount,
     required this.type,
     required this.dateTime,
+    required this.walletId,
   });
+
+  @override
+  String toString() {
+    return "$id - ${category.id} - ${title} - ${amount} - ${type} - ${dateTime} - $walletId";
+  }
 }

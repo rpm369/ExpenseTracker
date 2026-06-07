@@ -1,9 +1,12 @@
+import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/SearchableList.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsChart.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
 import 'package:expense_tracker/Database/DummyTransactions.dart';
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Models/ExpenseCategory.dart';
+import 'package:expense_tracker/Services/TransactionServices.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum StatsPeriod { weekly, monthly, yearly }
 
@@ -15,6 +18,9 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
+  bool isLoading = true;
+  List<Transaction>? transactionList;
+
   StatsPeriod _selectedPeriod = StatsPeriod.weekly;
 
   List<Transaction> _getFilteredTransactions() {
@@ -22,47 +28,67 @@ class _StatsPageState extends State<StatsPage> {
     switch (_selectedPeriod) {
       case StatsPeriod.weekly:
         final limit = now.subtract(const Duration(days: 7));
-        return dummyTransactions
+        return transactionList!
             .where((tx) => tx.dateTime.isAfter(limit))
             .toList();
       case StatsPeriod.monthly:
         final limit = now.subtract(const Duration(days: 30));
-        return dummyTransactions
+        return transactionList!
             .where((tx) => tx.dateTime.isAfter(limit))
             .toList();
       case StatsPeriod.yearly:
         final limit = now.subtract(const Duration(days: 365));
-        return dummyTransactions
+        return transactionList!
             .where((tx) => tx.dateTime.isAfter(limit))
             .toList();
     }
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.watch<TransactionServices>().fetchAllTransactions().then((list) {
+      setState(() {
+        isLoading = false;
+        transactionList = list;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final filteredData = _getFilteredTransactions();
+    List<Transaction>? filteredData;
+    if (!isLoading) filteredData = _getFilteredTransactions();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildHeader(context: context, displayText: "Statistics"),
-        _buildSegmentControl(context),
+        if (!isLoading) _buildSegmentControl(context),
         Expanded(
           child: ListView(
             padding: const EdgeInsets.all(10),
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.35,
-                child: StatsChart(
-                  transactions: filteredData,
-                  period: _selectedPeriod,
-                ),
+                child: (!isLoading)
+                    ? StatsChart(
+                        transactions: filteredData!,
+                        period: _selectedPeriod,
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(color: Colors.blue),
+                      ),
               ),
               const SizedBox(height: 20),
               _listHeaderText(displayText: "Transactions"),
               const SizedBox(height: 10),
-              TransactionList(data: filteredData, isScrollable: false),
+              (!isLoading)
+                  ? SearchableList(data: filteredData!)
+                  : Center(
+                      child: CircularProgressIndicator(color: Colors.blue),
+                    ),
             ],
           ),
         ),
