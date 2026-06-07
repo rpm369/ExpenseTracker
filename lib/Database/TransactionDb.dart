@@ -38,4 +38,8 @@ class TransactionDb {
   List<Transaction> getAllTransactions() {
     return _db!.values.toList();
   }
+
+  Future<void> deleteTransaction({required Transaction trans}) async {
+    await trans.delete();
+  }
 }

@@ -6,6 +6,15 @@ import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:flutter/material.dart';
 
 class TransactionServices extends ChangeNotifier {
+  Future<void> deleteTransactionsWithWalletId({required int walletId}) async {
+    TransactionDb transDb = TransactionDb.getDb();
+
+    (await fetchAllTransactions()).forEach((trans) async {
+      if (trans.walletId == walletId)
+        await transDb.deleteTransaction(trans: trans);
+    });
+  }
+
   Future<void> addNewTransaction({required Transaction transaction}) async {
     await Future.delayed(Duration(seconds: 2));
     TransactionDb transactionDb = TransactionDb.getDb();

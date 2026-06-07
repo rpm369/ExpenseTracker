@@ -28,7 +28,13 @@ class LogOutDialog extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           content: (isLoading.value)
-              ? CircularProgressIndicator()
+              ? SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.blue),
+                  ),
+                )
               : _buildText(
                   title: "Are you sure you want to Logout ?",
                   fontSize: 15,

@@ -4,6 +4,7 @@ import 'package:expense_tracker/Database/WalletDb.dart';
 import 'package:expense_tracker/Errors.dart';
 import 'package:expense_tracker/Models/Wallet.dart';
 import 'package:expense_tracker/Services/ImageProcessService.dart';
+import 'package:expense_tracker/Services/TransactionServices.dart';
 import 'package:flutter/material.dart';
 
 class WalletServices extends ChangeNotifier {
@@ -40,6 +41,11 @@ class WalletServices extends ChangeNotifier {
     await ImageProcessingService.deleteWalletImage(
       imagePath: selectedWalletForForm!.imageURL,
     );
+
+    await TransactionServices().deleteTransactionsWithWalletId(
+      walletId: selectedWalletForForm!.id!,
+    );
+
     await (await WalletDb.getDb()).deleteWallet(wallet: selectedWalletForForm!);
     notifyListeners();
     return true;
@@ -47,12 +53,6 @@ class WalletServices extends ChangeNotifier {
 
   Future<bool> updateWallet({required Wallet newWallet}) async {
     await Future.delayed(Duration(seconds: 3));
-
-    if (await _doesWalletExist(wallet: newWallet))
-      throw DuplicateEntityException(
-        message: "Wallet already exist",
-        completionStatus: false,
-      );
 
     if (newWallet.title != selectedWalletForForm!.title) {
       selectedWalletForForm!.title = newWallet.title;

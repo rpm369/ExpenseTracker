@@ -46,7 +46,7 @@ class UiUtils {
     return TextFormField(
       key: key,
       cursorColor: onSurface,
-      onSaved: onSaved,
+      onFieldSubmitted: onSaved,
       style: TextStyle(fontSize: 20),
       controller: controller,
       onChanged: onChange,
