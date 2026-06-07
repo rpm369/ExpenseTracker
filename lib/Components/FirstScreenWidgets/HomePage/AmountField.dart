@@ -2,29 +2,47 @@ import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AmountField extends StatelessWidget {
-  void Function(double) callBack;
-  FocusNode node;
+class AmountField extends StatefulWidget {
+  final void Function(double) callBack;
+  final FocusNode node;
 
-  AmountField({required this.callBack, required this.node}) {
-    node.addListener(() {
-      if (!node.hasFocus) {
-        String userAmount = (controller.text.isEmpty) ? "0" : controller.text;
-        double newAmount = double.parse(userAmount);
-        callBack(newAmount);
-      }
-    });
+  const AmountField({
+    super.key,
+    required this.callBack,
+    required this.node,
+  });
+
+  @override
+  State<AmountField> createState() => _AmountFieldState();
+}
+
+class _AmountFieldState extends State<AmountField> {
+  late final TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController();
   }
-  TextEditingController controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Color onSurface = Theme.of(context).colorScheme.onSurface;
     return UiUtils.FormTextField(
       context: context,
       hintText: "Default 0",
-      node: node,
+      node: widget.node,
       controller: controller,
+      onChange: (value) {
+        String userAmount = (value.isEmpty) ? "0" : value;
+        double newAmount = double.parse(userAmount);
+        widget.callBack(newAmount);
+      },
       keyboardType: TextInputType.number,
     );
   }

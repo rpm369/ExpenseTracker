@@ -30,6 +30,7 @@ class AuthService {
 
   static Future<bool> logIn({required User user}) async {
     UserDb userDb = UserDb.getDb();
+    print(user.userPassword + " this is the password");
     int? id = await userDb.logInUser(user: user);
 
     if (id == null) return false;

@@ -30,9 +30,7 @@ class _PasswdfieldState extends State<Passwdfield> {
     listener = () {
       if (!widget.focusNode.hasFocus) {
         if (controller.text.isNotEmpty) {
-          bool isValid = passwdKey.currentState!.validate();
-          if (isValid && !widget.forConformation)
-            user?.userPassword = controller.text.trim();
+          passwdKey.currentState!.validate();
         }
       } else {
         passwdKey?.currentState!.clearError();
@@ -63,6 +61,7 @@ class _PasswdfieldState extends State<Passwdfield> {
     return TextFormField(
       key: passwdKey,
       onFieldSubmitted: widget.onSaved,
+      onChanged: (newValue) => user?.userPassword = newValue,
       validator: (!widget.forConformation)
           ? (value) => Validators.validPassword(value!.trim())
           : (value) => Validators.validConformPassword(

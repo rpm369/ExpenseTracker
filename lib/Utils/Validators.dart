@@ -7,8 +7,10 @@ class Validators {
     if (_doesNotExist(value)) return "Field is Required";
     if (!RegExp(
       r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-    ).hasMatch(value!))
+    ).hasMatch(value!)) {
       return "Incorrect email address !";
+    }
+    return null;
   }
 
   static String? validPassword(String? value) {
@@ -27,15 +29,18 @@ Your password needs to be at least 6 characters long and include a mix of:
     ).hasMatch(value!)) {
       return validConditions;
     }
+    return null;
   }
 
   static String? validConformPassword(String? value, String originalPassword) {
     if (_doesNotExist(value)) return "Field is Required";
 
     if (value != originalPassword) return "Password Mismatch !";
+    return null;
   }
 
   static String? requiredField(String? value) {
-    if (value!.isEmpty) return "Field is Required";
+    if (_doesNotExist(value)) return "Field is Required";
+    return null;
   }
 }

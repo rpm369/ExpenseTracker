@@ -65,7 +65,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _unfocusNodes() {
+  Future<void> _unfocusNodes() async {
     if (emailNode.hasFocus) emailNode.unfocus();
     if (passwdNode.hasFocus) passwdNode.unfocus();
   }

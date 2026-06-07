@@ -60,10 +60,11 @@ class _AuthButtonState extends State<AuthButton> {
           isLoading = true;
         });
 
-        if (widget.isForSignUp)
+        if (widget.isForSignUp) {
           await _handleSignIn();
-        else
+        } else {
           await _handleLogIn();
+        }
 
         setState(() {
           isLoading = false;

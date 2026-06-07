@@ -12,7 +12,7 @@ import 'package:expense_tracker/main.dart';
 void main() {
   testWidgets('Authentication screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(false));
 
     // Verify that our auth screen loads and displays the login header.
     expect(find.text("Hey,\nWelcome Back"), findsOneWidget);

@@ -72,7 +72,8 @@ class _UpdatewalletformState extends State<Updatewalletform> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     Wallet selectedWallet = context
         .read<WalletServices>()
         .selectedWalletForForm!;
@@ -82,11 +83,14 @@ class _UpdatewalletformState extends State<Updatewalletform> {
       totalAmount: selectedWallet.totalAmount,
       imageURL: selectedWallet.imageURL,
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(15),
       child: Provider(
-        create: (_) => newWallet,
+        create: (_) => newWallet!,
         child: (isLoading)
             ? Center(child: CircularProgressIndicator(color: Colors.blue))
             : _buildForm(),

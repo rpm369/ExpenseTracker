@@ -26,8 +26,7 @@ class _EmailFieldState extends State<EmailField> {
     listener = () {
       if (!widget.node.hasFocus) {
         if (controller.text.isNotEmpty) {
-          bool isValid = emailkey.currentState!.validate();
-          if (isValid) user?.userEmail = controller.text.trim().toLowerCase();
+          emailkey.currentState!.validate();
         }
       } else {
         emailkey.currentState!.clearError();
@@ -42,6 +41,7 @@ class _EmailFieldState extends State<EmailField> {
     return TextFormField(
       key: emailkey,
       controller: controller,
+      onChanged: (newValue) => user?.userEmail = newValue.trim().toLowerCase(),
       validator: (value) => Validators.validateMail(value!.trim()),
       onFieldSubmitted: widget.onSaved,
       cursorColor: onSurface,
