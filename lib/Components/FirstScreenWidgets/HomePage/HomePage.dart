@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         UiUtils.displayBottomSheet(
-          sheetContent: ListSearchField(),
+          builder: (context) => ListSearchField(),
           context: context,
         );
       },

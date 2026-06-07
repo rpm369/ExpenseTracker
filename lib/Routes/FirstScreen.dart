@@ -7,7 +7,6 @@ import 'package:expense_tracker/Services/UserService.dart';
 import 'package:expense_tracker/Utils/UIUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:provider/provider.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -40,11 +39,10 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Widget? _buildFloatingActionButton() {
     Color surface = Theme.of(context).colorScheme.surface;
-    Color primary = Theme.of(context).colorScheme.primary;
     return FloatingActionButton(
       onPressed: () {
         UiUtils.displayBottomSheet(
-          sheetContent: NewTransactionForm(),
+          builder: (context) => NewTransactionForm(),
           context: context,
         );
       },

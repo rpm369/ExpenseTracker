@@ -19,7 +19,7 @@ class WalletTile extends StatelessWidget {
       onTap: () {
         context.read<WalletServices>().selectedWalletForForm = wallet;
         UiUtils.displayBottomSheet(
-          sheetContent: Updatewalletform(),
+          builder: (context) => Updatewalletform(),
           context: context,
         );
       },

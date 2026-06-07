@@ -1,4 +1,4 @@
-import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/SearchableList.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/SearchableList.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/StatsPage/StatsChart.dart';
 import 'package:expense_tracker/Components/FirstScreenWidgets/TransactionList.dart';
 import 'package:expense_tracker/Database/DummyTransactions.dart';

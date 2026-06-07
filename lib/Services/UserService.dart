@@ -11,7 +11,6 @@ class UserService extends ChangeNotifier {
   }
 
   Future<bool> updateUser({required User user}) async {
-    await Future.delayed(Duration(seconds: 3));
     User activeUser = getActiveUser();
     bool needToUpdate = false;
 

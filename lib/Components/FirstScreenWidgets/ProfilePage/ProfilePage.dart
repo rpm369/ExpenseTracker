@@ -37,7 +37,7 @@ class ProfilePage extends StatelessWidget {
       children: [
         OptionTile(
           onClick: () => UiUtils.displayBottomSheet(
-            sheetContent: UpdateProfileForm(),
+            builder: (context) => UpdateProfileForm(),
             context: context,
           ),
           bgColor: Colors.deepPurpleAccent,
@@ -46,7 +46,7 @@ class ProfilePage extends StatelessWidget {
         ),
         OptionTile(
           onClick: () => UiUtils.displayBottomSheet(
-            sheetContent: SettingsSheet(),
+            builder: (context) => SettingsSheet(),
             context: context,
           ),
           bgColor: Colors.green,
@@ -55,7 +55,7 @@ class ProfilePage extends StatelessWidget {
         ),
         OptionTile(
           onClick: () => UiUtils.displayBottomSheet(
-            sheetContent: PrivacyPolicySheet(),
+            builder: (context) => PrivacyPolicySheet(),
             context: context,
           ),
           bgColor: Colors.grey,

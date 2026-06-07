@@ -41,11 +41,12 @@ class SystemDb extends ChangeNotifier {
     return userId != -1;
   }
 
-  Future<bool> switchThemeMode() async {
-    return await _db!.setBool(
+  Future<void> switchThemeMode() async {
+    await _db!.setBool(
       SystemDbConst.IS_DARK.id,
       !(_db!.getBool(SystemDbConst.IS_DARK.id)!),
     );
+    notifyListeners();
   }
 
   Future<void> setActiveUserId({required int newId}) {

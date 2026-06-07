@@ -11,7 +11,6 @@ class WalletServices extends ChangeNotifier {
   Wallet? selectedWalletForForm;
 
   Future<bool> createNewWallet({required Wallet newWallet}) async {
-    await Future.delayed(Duration(seconds: 3));
     WalletDb walletDb = await WalletDb.getDb();
 
     if (await _doesWalletExist(wallet: newWallet))
@@ -37,7 +36,6 @@ class WalletServices extends ChangeNotifier {
   }
 
   Future<bool> deleteSelectedWallet() async {
-    await Future.delayed(Duration(seconds: 3));
     await ImageProcessingService.deleteWalletImage(
       imagePath: selectedWalletForForm!.imageURL,
     );
@@ -52,8 +50,6 @@ class WalletServices extends ChangeNotifier {
   }
 
   Future<bool> updateWallet({required Wallet newWallet}) async {
-    await Future.delayed(Duration(seconds: 3));
-
     if (newWallet.title != selectedWalletForForm!.title) {
       selectedWalletForForm!.title = newWallet.title;
     }
@@ -100,7 +96,6 @@ class WalletServices extends ChangeNotifier {
   }
 
   Future<List<Wallet>> getAllWallets() async {
-    await Future.delayed(Duration(seconds: 2));
     WalletDb walletDb = await WalletDb.getDb();
 
     List<Wallet> walletList = walletDb.getWalletList();

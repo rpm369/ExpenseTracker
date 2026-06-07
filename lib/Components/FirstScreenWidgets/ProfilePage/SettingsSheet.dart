@@ -1,11 +1,14 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
-import 'package:expense_tracker/Themes/ThemeProvider.dart';
+import 'package:expense_tracker/Database/SystemDb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-class SettingsSheet extends StatelessWidget {
-  ValueNotifier<bool> isDark = ValueNotifier(true);
+class SettingsSheet extends StatefulWidget {
+  @override
+  State<SettingsSheet> createState() => _SettingsSheetState();
+}
 
+class _SettingsSheetState extends State<SettingsSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,7 +21,7 @@ class SettingsSheet extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(15),
-              children: [_themeToggleButton()],
+              children: [_themeToggleButton(context: context)],
             ),
           ),
         ],
@@ -26,25 +29,23 @@ class SettingsSheet extends StatelessWidget {
     );
   }
 
-  Widget _themeToggleButton() {
-    return ValueListenableBuilder(
-      valueListenable: isDark,
-      builder: (context, value, child) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _commonText(title: "Dark Theme", fontSize: 18),
-            Switch(
-              value: isDark.value,
-              onChanged: (value) => isDark.value = value,
-              activeTrackColor: Colors.lightGreenAccent,
-              activeColor: Colors.green,
-              inactiveTrackColor: Colors.redAccent,
-            ),
-          ],
-        );
-      },
+  Widget _themeToggleButton({required BuildContext context}) {
+    SystemDb sysDb = context.watch<SystemDb>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _commonText(title: "Dark Theme", fontSize: 18),
+        Switch(
+          value: sysDb.isDarkModeEnabled(),
+          onChanged: (_) async {
+            await sysDb.switchThemeMode();
+          },
+          activeTrackColor: Colors.lightGreenAccent,
+          activeColor: Colors.green,
+          inactiveTrackColor: Colors.redAccent,
+        ),
+      ],
     );
   }
 

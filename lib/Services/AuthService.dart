@@ -3,11 +3,9 @@ import 'package:expense_tracker/Database/TransactionDb.dart';
 import 'package:expense_tracker/Database/UserDb.dart';
 import 'package:expense_tracker/Database/WalletDb.dart';
 import 'package:expense_tracker/Models/User.dart';
-import 'package:flutter/semantics.dart';
 
 class AuthService {
   static Future<void> signUp({required User user}) async {
-    await Future.delayed(Duration(seconds: 3));
     UserDb userDb = UserDb.getDb();
 
     if (user.userName == null)
@@ -31,8 +29,6 @@ class AuthService {
   }
 
   static Future<bool> logIn({required User user}) async {
-    await Future.delayed((Duration(seconds: 3)));
-
     UserDb userDb = UserDb.getDb();
     int? id = await userDb.logInUser(user: user);
 
@@ -46,8 +42,6 @@ class AuthService {
   }
 
   static Future<bool> logOut() async {
-    await Future.delayed(Duration(seconds: 3));
-
     await setSystemWideId(newId: -1);
     await TransactionDb.closeDb();
     await WalletDb.closeDb();

@@ -3,10 +3,11 @@ import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Services/TransactionServices.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 class TransactionList extends StatefulWidget {
-  bool isScrollable;
+  final bool isScrollable;
   TransactionList({this.isScrollable = true});
 
   @override
@@ -38,20 +39,42 @@ class _TransactionListState extends State<TransactionList> {
   }
 
   Widget _staticList() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: transList!
-          .map((model) => TransactionTile(transaction: model))
-          .toList(),
+    return AnimationLimiter(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: AnimationConfiguration.toStaggeredList(
+          duration: const Duration(milliseconds: 375),
+          childAnimationBuilder: (widget) => SlideAnimation(
+            verticalOffset: 50.0,
+            child: FadeInAnimation(
+              child: widget,
+            ),
+          ),
+          children: transList!
+              .map((model) => TransactionTile(transaction: model))
+              .toList(),
+        ),
+      ),
     );
   }
 
   Widget _scrollableList() {
-    return ListView.builder(
-      itemCount: transList!.length,
-      itemBuilder: (context, index) {
-        return TransactionTile(transaction: transList![index]);
-      },
+    return AnimationLimiter(
+      child: ListView.builder(
+        itemCount: transList!.length,
+        itemBuilder: (context, index) {
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            child: SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: TransactionTile(transaction: transList![index]),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

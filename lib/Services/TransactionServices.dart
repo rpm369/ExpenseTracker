@@ -16,7 +16,6 @@ class TransactionServices extends ChangeNotifier {
   }
 
   Future<void> addNewTransaction({required Transaction transaction}) async {
-    await Future.delayed(Duration(seconds: 2));
     TransactionDb transactionDb = TransactionDb.getDb();
     WalletDb walletDb = await WalletDb.getDb();
 
@@ -56,7 +55,6 @@ class TransactionServices extends ChangeNotifier {
   }
 
   Future<List<Transaction>> fetchAllTransactions() async {
-    await Future.delayed(Duration(seconds: 1));
     TransactionDb transactionDb = TransactionDb.getDb();
 
     return transactionDb.getAllTransactions();

@@ -10,7 +10,9 @@ class ImageProcessingService {
     try {
       XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
       return (image == null) ? null : image.path;
-    } catch (e) {}
+    } catch (e) {
+      return null;
+    }
   }
 
   static Future<String> saveWalletImage({

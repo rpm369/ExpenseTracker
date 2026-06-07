@@ -90,7 +90,7 @@ class BalancePage extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         UiUtils.displayBottomSheet(
-          sheetContent: NewWalletForm(),
+          builder: (context) => NewWalletForm(),
           context: context,
         );
       },

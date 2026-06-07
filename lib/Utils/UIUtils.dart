@@ -4,27 +4,33 @@ import 'package:flutter/material.dart';
 
 class UiUtils {
   static void displayBottomSheet({
-    required Widget sheetContent,
+    required WidgetBuilder builder,
     required BuildContext context,
   }) {
-    Color primary = Theme.of(context).colorScheme.primary;
     showModalBottomSheet(
       context: context,
-      backgroundColor: primary,
+      backgroundColor: Colors.transparent,
       isScrollControlled:
           true, // Crucial for forms so it can resize with the keyboard
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+      builder: (modalContext) {
+        Color primary = Theme.of(modalContext).colorScheme.primary;
+        return Container(
+          decoration: BoxDecoration(
+            color: primary,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          child: SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.87,
-            child: sheetContent,
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(modalContext).viewInsets.bottom,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(modalContext).size.height * 0.87,
+              child: builder(modalContext),
+            ),
           ),
         );
       },

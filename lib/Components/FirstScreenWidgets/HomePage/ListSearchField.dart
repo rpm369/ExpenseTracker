@@ -1,5 +1,5 @@
 import 'package:expense_tracker/Components/FirstScreenWidgets/FormHeader.dart';
-import 'package:expense_tracker/Components/FirstScreenWidgets/HomePage/SearchableList.dart';
+import 'package:expense_tracker/Components/FirstScreenWidgets/SearchableList.dart';
 
 import 'package:expense_tracker/Models/Transaction.dart';
 import 'package:expense_tracker/Services/TransactionServices.dart';
